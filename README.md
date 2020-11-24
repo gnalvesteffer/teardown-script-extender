@@ -1,5 +1,5 @@
 # Teardown Unleashed
-This repo is an open source internal "tool" for testing / developing Teardown stuff, it should be a decent enough reference if you want to make your own modloader with lua bindings, or just your own mod in general.
+TDU is an open source internal "tool" for testing / developing Teardown stuff, it should be a decent enough reference if you want to make your own modloader with lua bindings, or just your own mod in general.
 
 ## Key binds
 * Insert to open the menu
@@ -18,7 +18,7 @@ This repo is an open source internal "tool" for testing / developing Teardown st
 ## Installation
 Grab the opengl32.dll from releases, and paste it on your game's root directory (where teardown.exe is located)
 
-## Building requirements
+## Build requirements
 * [MS Detours](https://github.com/microsoft/Detours/releases)
 * [GLEW](http://glew.sourceforge.net/)
 
