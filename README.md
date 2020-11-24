@@ -1,6 +1,11 @@
 # Teardown Unleashed
 This repo is an open source internal "tool" for testing / developing Teardown stuff, it should be a decent enough reference if you want to make your own modloader with lua bindings, or just your own mod in general.
 
+## Key binds
+* Insert to open the menu
+* N to toggle noclip
+* (While noclipping) Shift to go fast, Ctrl to go slow
+
 ## Features
 * Lua executor **(slightly unstable at the moment)**, ready to implement custom functions with a couple already implemented ones (IsKeyDown, SetPlayerPos, SetPlayerVelocity).
 * A loadbuffer hook, if you want to replace the game's scripts with your own, without the need of replacing the actual files.
