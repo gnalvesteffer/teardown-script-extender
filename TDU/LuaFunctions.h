@@ -7,6 +7,7 @@ namespace LuaFunctions
 	{
 		int lPrint(lua_State* L);
 		int lSetPlayerVel(lua_State* L);
+		int lReadFile(lua_State* L);
 	}
 	const char* luaL_tolstring(lua_State *L, int idx, size_t *len = NULL);
 }

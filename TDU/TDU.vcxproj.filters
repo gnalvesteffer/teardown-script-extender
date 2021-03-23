@@ -187,6 +187,9 @@
     <ClCompile Include="MiscFunctions.cpp">
       <Filter>Source Files\Teardown</Filter>
     </ClCompile>
+    <ClCompile Include="ReadFile.cpp">
+      <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">

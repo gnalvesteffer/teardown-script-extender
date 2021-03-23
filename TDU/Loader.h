@@ -16,15 +16,12 @@ namespace Loader
 		dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 		SetConsoleMode(hConsole, dwMode);
 
-		WriteLog(" _________  ______   __  __      ");
-		WriteLog("/________/\\/_____/\\ /_/\\/_/\\     ");
-		WriteLog("\\__.::.__\\/\\:::_ \\ \\\\:\\ \\:\\ \\    ");
-		WriteLog("   \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\   ");
-		WriteLog("    \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\  ");
-		WriteLog("     \\::\\ \\   \\:\\/.:| |\\:\\_\\:\\ \\ ");
-		WriteLog("      \\__\\/    \\____/_/ \\_____\\/ ");
-		WriteLog("Teardown unleashed v%s", Globals::version.c_str());
-		WriteLog("Shout-out to Xorberax - SK83RJOSH - Knebb\n");
+		WriteLog("Teardown Script Extender v%s", Globals::version.c_str());
+		WriteLog("--------------------------------------------------------------------------------------------------");
+		WriteLog("Credits:");
+		WriteLog("  Xorberax - Author of Teardown Script Extender (TDSE)");
+		WriteLog("  Nahu - Author of Teardown Unleashed (TDU), the foundation of TDSE: https://github.com/nxhu64/TDU");
+		WriteLog("--------------------------------------------------------------------------------------------------");
 
 		WriteLog("Hooking CreateWindow");
 		Hooks::initCWHook();
