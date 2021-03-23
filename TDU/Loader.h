@@ -1,5 +1,5 @@
 #include "Logger.h"
-//#include "Hooks.h"
+#include "Hooks.h"
 #include "Globals.h"
 
 namespace Loader
@@ -26,7 +26,7 @@ namespace Loader
 		WriteLog("Teardown unleashed v%s", Globals::version.c_str());
 		WriteLog("Shout-out to Xorberax - SK83RJOSH - Knebb\n");
 
-		//WriteLog("Hooking CreateWindow");
-		//Hooks::initCWHook();
+		WriteLog("Hooking CreateWindow");
+		Hooks::initCWHook();
 	}
 }
