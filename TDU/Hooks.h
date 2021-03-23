@@ -3,15 +3,25 @@
 
 namespace Hooks
 {
-	void initHooks();
+	namespace PlayerHooks
+	{
+		void initPlayerHooks();
+		void updateGrabCheck(bool enabled);
+		extern bool updateCamera;
+		extern bool updateCollisions;
+	}
+
+	namespace InputHooks
+	{
+		void hookWndProc();
+		void hookCursor();
+	}
+
 	void initLoggerHook();
 	void initRenderHooks();
-	void initInputHook();
-	void initCursorHook();
-	void initMLHook();
+	void initGameHooks();
 	void initCWHook();
 	void initLuaHooks();
-	void initPlayerHooks();
 
-	void setCameraEnabled(bool enabled);
+	void initHooks();
 }

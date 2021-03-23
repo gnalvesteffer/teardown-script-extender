@@ -12,11 +12,11 @@
 #include <GL/glew.h>
 #include <gl/GL.h>
 
-#include "ImGui/imgui.h"
-#include "ImGui/imgui_impl_win32.h"
-#include "ImGui/imgui_impl_opengl3.h"
+#include <imgui.h>
+#include <backends/imgui_impl_win32.h>
+#include <backends/imgui_impl_opengl3.h>
 
-typedef BOOL(__stdcall * twglSwapBuffers)		(_In_ HDC hDc);
+typedef BOOL	(*twglSwapBuffers)		(_In_ HDC hDc);
 twglSwapBuffers owglSwapBuffers;
 
 typedef void(*tglewInit)	();
@@ -26,15 +26,6 @@ ImGuiContext* ctx;
 
 void onGLInit()
 {
-	WriteLog("Initializing ImGui");
-
-	if (ctx)
-	{
-		ImGui::DestroyContext(ctx);
-		ZeroMemory(ctx, sizeof(ctx));
-		ctx = nullptr;
-		WriteLog("Old context destroyed");
-	}
 	ctx = ImGui::CreateContext();
 
 	const char* glsl_version = "#version 130";
@@ -69,6 +60,7 @@ void hGlewInit()
 	glewInit();
 	onGLInit();
 }
+
 
 void Hooks::initRenderHooks()
 {

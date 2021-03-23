@@ -29,27 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -75,20 +74,20 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>Game Folder Here</OutDir>
+    <OutDir>E:\SteamLibrary\steamapps\common\Teardown 0.6.1 %28Patch1%29\</OutDir>
     <TargetName>opengl32</TargetName>
-    <IncludePath>C:\DetoursLib\include;C:\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\DetoursLib\lib.X64;C:\GLEW\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\lib\detours\lib.X64;C:\lib\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>Game Folder Here</OutDir>
+    <OutDir>E:\SteamLibrary\steamapps\common\Teardown 0.6.1 %28Patch1%29\</OutDir>
     <TargetName>opengl32</TargetName>
-    <IncludePath>C:\DetoursLib\include;C:\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\DetoursLib\lib.X64;C:\GLEW\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\lib\detours\lib.X64;C:\lib\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,12 +115,16 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <IntrinsicFunctions>
+      </IntrinsicFunctions>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glew32s.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;OpenGL32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,6 +159,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -163,24 +167,17 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>glew32s.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;OpenGL32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="CreateWindowHook.cpp" />
-    <ClCompile Include="DataFunctions.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Functions.cpp" />
     <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
-    <ClCompile Include="ImGui\imgui_demo.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
-    <ClCompile Include="ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="ImGui\TextEditor.cpp" />
     <ClCompile Include="InitHooks.cpp" />
-    <ClCompile Include="InputFunctions.cpp" />
     <ClCompile Include="InputHook.cpp" />
     <ClCompile Include="LogHook.cpp" />
     <ClCompile Include="Lua\lapi.c" />
@@ -214,7 +211,7 @@
     <ClCompile Include="Lua\lvm.c" />
     <ClCompile Include="Lua\lzio.c" />
     <ClCompile Include="Lua\print.c" />
-    <ClCompile Include="MainLoopHook.cpp" />
+    <ClCompile Include="GameHooks.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MovementFunctions.cpp" />
     <ClCompile Include="Noclip.cpp" />
@@ -227,6 +224,8 @@
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ImGuiColorTextEdit\TextEditor.h" />
+    <ClInclude Include="imguiCPP.h" />
     <ClInclude Include="LuaFunctions.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Features.h" />
@@ -234,17 +233,9 @@
     <ClInclude Include="GLExterns.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Hooks.h" />
-    <ClInclude Include="ImGui\imconfig.h" />
-    <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="ImGui\imgui_impl_win32.h" />
-    <ClInclude Include="ImGui\imgui_internal.h" />
-    <ClInclude Include="ImGui\imstb_rectpack.h" />
-    <ClInclude Include="ImGui\imstb_textedit.h" />
-    <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="ImGui\TextEditor.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Shaders.h" />
     <ClInclude Include="TLua.h" />
     <ClInclude Include="Lua.hpp" />
     <ClInclude Include="Lua\lapi.h" />

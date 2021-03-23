@@ -5,14 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{540fe981-de8d-44a6-9061-9c493e00fff3}</UniqueIdentifier>
     </Filter>
@@ -21,9 +13,6 @@
     </Filter>
     <Filter Include="Source Files\Visual">
       <UniqueIdentifier>{c94157fd-d020-4407-9416-cc5a4467a857}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Visual\ImGui">
-      <UniqueIdentifier>{0a5c9830-54b3-4d18-9636-326b723ff188}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Teardown">
       <UniqueIdentifier>{8b038347-9f3b-4c1b-98d4-58db38e07896}</UniqueIdentifier>
@@ -36,6 +25,9 @@
     </Filter>
     <Filter Include="Source Files\Features\LuaFunctions">
       <UniqueIdentifier>{fe63be68-ae05-4187-af45-0db6b0665ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImGuiColorTextEdit">
+      <UniqueIdentifier>{aea08c31-7e0c-4447-a6e0-2466274fea53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,31 +46,13 @@
     <ClCompile Include="Globals.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\imgui.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_demo.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_draw.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_impl_win32.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGui\imgui_widgets.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files\Visual</Filter>
     </ClCompile>
     <ClCompile Include="InputHook.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="MainLoopHook.cpp">
+    <ClCompile Include="GameHooks.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
     <ClCompile Include="Lua\lapi.c">
@@ -186,16 +160,10 @@
     <ClCompile Include="Teardown.cpp">
       <Filter>Source Files\Teardown</Filter>
     </ClCompile>
-    <ClCompile Include="ImGui\TextEditor.cpp">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="TextFunctions.cpp">
       <Filter>Source Files\Features\LuaFunctions</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Source Files\Features\LuaFunctions</Filter>
-    </ClCompile>
-    <ClCompile Include="InputFunctions.cpp">
       <Filter>Source Files\Features\LuaFunctions</Filter>
     </ClCompile>
     <ClCompile Include="MovementFunctions.cpp">
@@ -204,14 +172,17 @@
     <ClCompile Include="PlayerHooks.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="DataFunctions.cpp">
-      <Filter>Source Files\Teardown</Filter>
-    </ClCompile>
     <ClCompile Include="Shaders.cpp">
       <Filter>Source Files\Teardown</Filter>
     </ClCompile>
     <ClCompile Include="Functions.cpp">
       <Filter>Source Files\Teardown</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiBuild.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp">
+      <Filter>Source Files\ImGuiColorTextEdit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,30 +203,6 @@
     </ClInclude>
     <ClInclude Include="Memory.h">
       <Filter>Source Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imconfig.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_opengl3.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_impl_win32.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imgui_internal.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_rectpack.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_textedit.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGui\imstb_truetype.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Source Files\Visual</Filter>
@@ -356,11 +303,17 @@
     <ClInclude Include="TLua.h">
       <Filter>Source Files\Teardown</Filter>
     </ClInclude>
-    <ClInclude Include="ImGui\TextEditor.h">
-      <Filter>Source Files\Visual\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="LuaFunctions.h">
       <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="Shaders.h">
+      <Filter>Source Files\Teardown</Filter>
+    </ClInclude>
+    <ClInclude Include="imguiCPP.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ImGuiColorTextEdit\TextEditor.h">
+      <Filter>Source Files\ImGuiColorTextEdit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

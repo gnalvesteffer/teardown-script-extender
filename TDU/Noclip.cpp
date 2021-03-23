@@ -2,55 +2,73 @@
 #include "Teardown.h"
 #include "Hooks.h"
 #include "Globals.h"
+#include "Logger.h"
 
 #include <Windows.h>
 
+#include <glm/gtc/quaternion.hpp>
+
 bool Features::Noclip::Enabled = false;
 
-float Features::Noclip::NoclipSpeed = 0.25f;
+float Features::Noclip::NoclipSpeed = 15.f;
 Vector3 newPos;
-Vector3 plyPos;
 Vector3 exitVel;
+
+Vector3 heightOffset(0, 1.7, 0);
+
+glm::quat newRot;
 
 void Features::Noclip::toggleNoclip()
 {
 	Features::Noclip::Enabled = !Features::Noclip::Enabled;
 
-	if (Enabled)
-		plyPos = Teardown::pGame->pPlayer->position;
+	Hooks::PlayerHooks::updateCamera = !Features::Noclip::Enabled;
+	Hooks::PlayerHooks::updateCollisions = !Features::Noclip::Enabled;
+
+	if (!Features::Noclip::Enabled)
+	{
+		Teardown::pGame->pPlayer->Velocity = exitVel;
+	}
 	else
 	{
-		Teardown::pGame->pPlayer->position = Teardown::pGame->pPlayer->cameraPosition2 - Vector3(0, 1.7, 0);
-		Teardown::pGame->pPlayer->velocity = exitVel;
+		newPos = Teardown::pGame->pPlayer->cameraPosition2;
 	}
-
-	Hooks::setCameraEnabled(!Enabled);
 }
 
 void Features::Noclip::doNoclip()
 {
 	if (!Enabled)
+		return;
+
+	if (Teardown::pGame->Status != Teardown::gameStatus::playing)
 	{
-		newPos = Teardown::pGame->pPlayer->cameraPosition2;
+		toggleNoclip();
 		return;
 	}
 
 	Vector2 input = Teardown::pGame->pPlayer->moveKeys;
 
-	Teardown::pGame->pPlayer->position = plyPos;			// Freeze the player in place
-	Teardown::pGame->pPlayer->velocity = Vector3(0, 0, 0);	// Freeze velocity
+	if (Teardown::pGame->isPaused)
+		return;
+
+	glm::quat qXAxis = glm::angleAxis(Teardown::pGame->pPlayer->totalMouseDelta.x, glm::vec3(1.f, 0, 0));
+	glm::quat qYAxis = glm::angleAxis(Teardown::pGame->pPlayer->totalMouseDelta.y, glm::vec3(0, 1.f, 0));
+
+	newRot = qYAxis  * qXAxis;
+
+	Teardown::pGame->pPlayer->cameraRotation2 = newRot;
+	
 	exitVel = Vector3(0, 0, 0);
 
 	if (input.x != 0)
 	{
-		Vector4 cameraAngle = Teardown::pGame->pPlayer->cameraRot;
 		Vector3 fwdVec;
 
-		fwdVec.x = 2 * (cameraAngle.x * cameraAngle.z + cameraAngle.w * cameraAngle.y);
-		fwdVec.y = 2 * (cameraAngle.y * cameraAngle.z - cameraAngle.w * cameraAngle.x);
-		fwdVec.z = 1 - 2 * (cameraAngle.x * cameraAngle.x + cameraAngle.y * cameraAngle.y);
+		fwdVec.x = 2 * (newRot.x * newRot.z + newRot.w * newRot.y);
+		fwdVec.y = 2 * (newRot.y * newRot.z - newRot.w * newRot.x);
+		fwdVec.z = 1 - 2 * (newRot.x * newRot.x + newRot.y * newRot.y);
 
-		fwdVec *= (input.x * NoclipSpeed);
+		fwdVec *= input.x * (NoclipSpeed * Teardown::pGame->totalDelta);
 
 		if (GetAsyncKeyState(VK_SHIFT))
 			fwdVec *= 2.f;
@@ -64,14 +82,13 @@ void Features::Noclip::doNoclip()
 
 	if (input.y != 0)
 	{
-		Vector4 cameraAngle = Teardown::pGame->pPlayer->cameraRot;
 		Vector3 sideVec;
 
-		sideVec.x = 1 - 2 * (cameraAngle.y * cameraAngle.y + cameraAngle.z * cameraAngle.z);
-		sideVec.y = 2 * (cameraAngle.x * cameraAngle.y + cameraAngle.w * cameraAngle.z);
-		sideVec.z = 2 * (cameraAngle.x * cameraAngle.z - cameraAngle.w * cameraAngle.y);
+		sideVec.x = 1 - 2 * (newRot.y * newRot.y + newRot.z * newRot.z);
+		sideVec.y = 2 * (newRot.x * newRot.y + newRot.w * newRot.z);
+		sideVec.z = 2 * (newRot.x * newRot.z - newRot.w * newRot.y);
 
-		sideVec *= (input.y * NoclipSpeed);
+		sideVec *= input.y * (NoclipSpeed * Teardown::pGame->totalDelta);
 
 		if (GetAsyncKeyState(VK_SHIFT))
 			sideVec *= 2.f;
@@ -86,4 +103,7 @@ void Features::Noclip::doNoclip()
 	exitVel *= Globals::FPS;
 
 	Teardown::pGame->pPlayer->cameraPosition2 = newPos;
+	Teardown::pGame->pPlayer->cameraPositionProcessed = newPos;
+
+	Teardown::pGame->pPlayer->Position = newPos - heightOffset;
 }

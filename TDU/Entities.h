@@ -1,6 +1,10 @@
 #pragma once
 #include "Vector.h"
+#include "Types.h"
+
 #include <cstdint>
+
+#include <glm/gtc/quaternion.hpp>
 
 // Entity total sizes: ( Not accounting for class inheritance )
 // Body:		0x100	/	256 bytes
@@ -21,7 +25,6 @@
 // Vox:			0x60	/	96 bytes
 // Convex:		0x2B8	/	696 bytes
 // HUD:			0x3DA8	/	15784 bytes
-
 
 enum class entityType : int8_t
 {
@@ -82,6 +85,19 @@ public:
 	virtual void Function06();
 }; // Size: 0x60
 
+class Tool
+{
+public:
+	char* modelPath; //0x0000
+	int32_t unk; //0x0008
+	char pad_000C[4]; //0x000C
+	float modelRecoil; //0x0010
+	float cameraRecoil; //0x0014
+	Vector3 Position; //0x0018 Relative to camera / player
+	Vector4 Rotation; //0x0024
+	float cooldown; //0x0034
+}; //Size: 0x0038
+
 class Entity
 {
 public:
@@ -102,117 +118,174 @@ public:
 class Body : public Entity
 {
 public:
-	Vector3 bodyPos; //0x0028
-	Vector4 bodyRot; //0x0034
-	Vector3 bodyPos2; //0x0044
-	Vector4 bodyRot2; //0x0050
-	Vector3 bodyPos3; //0x0060
-	Vector4 bodyRot3; //0x006C
+	Vector3 Position; //0x0028
+	Vector4 Rotation; //0x0034
+	Vector3 Position2; //0x0044
+	Vector4 Rotation2; //0x0050
+	Vector3 Position3; //0x0060
+	Vector4 Rotation3; //0x006C
 	Vector3 Velocity; //0x007C
-	Vector3 rotForce; //0x0088
-	char pad_01[72]; //0x0094
+	Vector3 rotationVelocity; //0x0088
+	char pad_0094[12]; //0x0094
+	float Lightness; //0x00A0
+	char pad_00A4[24]; //0x00A4
+	float Integrity; //0x00BC Goes from 1 straight to 0, no in-between, similar to the isBroken bool in Shape but it's a float
+	char pad_00C0[28]; //0x00C0
 	Vector3 posMin; //0x00DC
 	Vector3 posMax; //0x00E8
 	bool dynamic; //0x00F4
-	char pad_02[11]; //0x00F5
-}; // Size: 0x100
+	char pad_00F5[3]; //0x00F5
+}; //Size: 0x00F8
 
 class Shape : public Entity
 {
 public:
-	char pad_0028[28];	//0x0028
-	Vector3 posMax;		//0x0044
-	Vector3 posMin;		//0x0050
-	char pad_005C[52];	//0x005C
-	Vox *pVox;			//0x0090
-	char pad_0098[20];	//0x0098
-	bool isBroken;		//0x00AC
-	char pad_00AD[3];	//0x00AD
-}; // Size: 0xB0
+	char pad_0028[28]; //0x0028
+	Vector3 posMin; //0x0044
+	Vector3 posMax; //0x0050
+	char pad_005C[52]; //0x005C
+	class Vox *pVox; //0x0090
+	char pad_0098[16]; //0x0098
+	float Integrity; //0x00A8
+	bool isBroken; //0x00AC
+	char pad_00AD[19]; //0x00AD
+}; //Size: 0x00C0 (Seems about right, unverified)
+
+class Fire
+{
+public:
+	class Shape *pShape; //0x0000
+	char pad_0008[16]; //0x0008
+	float lifeTime; //0x0018 Every fire dies after hitting 10s
+	bool unk; //0x001C
+	bool hasBurnedSource; //0x001D
+	char pad_001E[10]; //0x001E
+}; //Size: 0x0028 (Seems about right, unverified)
+
+class Vehicle : public Entity
+{
+public:
+	Body *pBody; //0x0028
+	Vector3 camPosition; //0x0030
+	Vector4 rotation; //0x003C
+	char pad_004C[40]; //0x004C
+	int8_t wheelCount; //0x0074
+	char pad_0075[199]; //0x0075
+	Vector2 moveInput; //0x013C
+	float handbrake; //0x0144
+	float mouse1Down; //0x0148
+	float mouse2Down; //0x014C
+	char pad_0150[8]; //0x0150
+	float wheelTurn; //0x0158
+	float accelCompletion; //0x015C
+	char pad_0160[4]; //0x0160
+	float accelCompletion2; //0x0164
+	float N000014F4; //0x0168
+	float vehicleCondition; //0x016C
+	char pad_0170[276]; //0x0170
+	bool isBraking; //0x0284
+};
 
 class Player
 {
 public:
-	Vector3 position;
-	Vector4 vehicleRotation;
-	Vector3 unkVelocity;
-	char pad_01[16];
-	Vector3 velocity;
-	char pad_02[12];
-	Vector3 viewmodelVel;
-	int awakeBodies;
-	Vector3 cameraPosition;
-	Vector4 cameraRot;
-	Vector3 cameraPosition2;
-	Vector4 cameraRot2;
-	Vector3 cameraPosition3;
-	Vector4 cameraRot3;
-	float fwMovementDelta;
-	float sdMovementDelta;
-	float totalTravelDist;
-	float travelDistDelta;
-	Vector2 camDelta;
-	Vector2 camDelta2;
-	Vector2 moveKeys;
-	Vector2 mouseDelta;
-	char pad_03[1];
-	bool isCrouching;
-	char pad_04[1];
-	bool isMouse2Down;
-	char pad_05[1];
-	bool isMouse1Down;
-	char pad_06[2];
-	float playerHeight;
-	float camHeight;
-	float baseSize;
-	float unkSize;
-	float playerSize;
-	float unkSize2;
-	float minHeight;
-	float unkSize3;
-	float crouchCompletion;
-	float unkSize4;
-	char pad_07[68];
-	bool throwing;
-	char pad_08[3];
-	float health;
-	char pad_09[616];
-	int8_t equippedTool;
-	char pad_10[7];
-	class Body *toolBody;
-	char pad_11[28];
-	Vector3 toolPosition;
-	Vector4 toolQuat;
-	char pad_12[8];
-	float recoil;
-	float equipAnimation;
-	float attackCooldown;
-	float isOnGround;
-	float airTravelTime;
-	float isOnGround2;
-	float airTravelTime2;
-	char pad_13[12];
-	Vector3 lastCollisionPos;
-	char pad_14[16];
-	Vector3 groundColour; // R, G, B (0.f - 1.f)
-	char pad_15[20];
-	bool isStandingOnDecal; // Only counts paint and burn marks
-	char pad_16[7];
-	float timeSinceLastJump;
-	char pad_17[4];
-	float viewPunchSlow;
-	float viewPunchFast;
-	Vector3 dragDelta; // not sure about this one
-	Shape* pTargetShape;
-	float eyeRaycastDist;
-	Vector3 eyeRaycastPos;
-	Vector3 unkDragRelated2;
-	bool showGrabCircle;
-	char pad_18[3];
-	Shape* pGrabbedShape;
-	Shape* pInteractableShape;
-	char pad_19[52];
-	float jumpHeight;
-	char pad_20[24];
-	float elapsedTime;
-};
+	Vector3 Position; //0x0000
+	Vector4 vehicleRotation; //0x000C
+	Vector3 unknown; //0x001C
+	char pad_0028[16]; //0x0028
+	Vector3 Velocity; //0x0038
+	char pad_0044[12]; //0x0044
+	Vector3 Velocity2; //0x0050
+	int32_t lastInteractedShapeIdx; //0x005C
+	Vector3 cameraPositionProcessed; //0x0060
+	glm::quat cameraRotationProcessed; //0x006C
+	Vector3 cameraPosition2; //0x007C
+	glm::quat cameraRotation2; //0x0088
+	Vector3 cameraPosition3; //0x0098
+	glm::quat cameraRotation3; //0x00A4
+	float fwdDelta; //0x00B4
+	float sideDelta; //0x00B8
+	float travelDist; //0x00BC
+	float travelDist2; //0x00C0 resets after hitting 1
+	Vector2 totalProcessedMouseDelta; //0x00C4
+	Vector2 totalMouseDelta; //0x00CC
+	Vector2 moveKeys; //0x00D4
+	Vector2 mouseDelta; //0x00DC
+	char pad_00E4[1]; //0x00E4
+	bool isCrouched; //0x00E5
+	char pad_00E6[1]; //0x00E6
+	bool isMouse2Down; //0x00E7
+	char pad_00E8[1]; //0x00E8
+	bool isMouse1Down; //0x00E9
+	char pad_00EA[2]; //0x00EA
+	float playerHeight; //0x00EC
+	char pad_00F0[28]; //0x00F0
+	float crouchCompletion; //0x010C
+	char pad_0110[8]; //0x0110
+	class Body* pGrabbedBody; //0x0118
+	char pad_0120[40]; //0x0120
+	float grabDist1; //0x0148
+	float grabDist2; //0x014C
+	class Body* pGrabbedBody2; //0x0150
+	bool isThrowing; //0x0158
+	char pad_0159[3]; //0x0159
+	float Health; //0x015C
+	char pad_0160[56]; //0x0160
+	Tool sledge; //0x0198
+	Tool spraycan; //0x01D0
+	Tool extinguisher; //0x0208
+	Tool blowtorch; //0x0240
+	Tool Shotgun; //0x0278
+	Tool Plank; //0x02B0
+	Tool Pipebomb; //0x02E8
+	Tool Gun; //0x0320
+	Tool Bomb; //0x0358
+	Tool Rocket; //0x0390
+	small_string equippedToolName; //0x03C8
+	class Body* pToolBody; //0x03D8
+	char pad_03E0[28]; //0x03E0
+	Vector3 toolPos; //0x03FC
+	Vector4 toolRot; //0x0408
+	char pad_0418[8]; //0x0418
+	float recoil; //0x0420
+	float equipAnimation; //0x0424 Something related to equipping
+	float toolCooldown; //0x0428
+	float onGround; //0x042C
+	float airTime; //0x0430
+	float onGround2; //0x0434
+	float airTime2; //0x0438
+	Vector3 groundNormal; //0x043C Uncertain
+	Vector3 lastWalkedPos; //0x0448
+	char pad_0454[4]; //0x0454
+	class Body* pLastCollidedBody; //0x0458
+	int32_t groundSurfaceId; //0x0460
+	float groundR; //0x0464
+	float groundG; //0x0468
+	float groundB; //0x046C
+	char pad_0470[20]; //0x0470
+	bool standingOnDecal; //0x0484 I know, there are no decals, but palettes, I couldn't come up with a better name
+	char pad_0485[7]; //0x0485
+	float timeSinceLastJump; //0x048C
+	char pad_0490[24]; //0x0490
+	class Shape* pTargetShape; //0x04A8
+	float raycastDist; //0x04B0
+	Vector3 raycastHit; //0x04B4
+	char pad_04C0[12]; //0x04C0
+	bool canGrab; //0x04CC
+	char pad_04CD[3]; //0x04CD
+	class Shape* pGrabbedShape; //0x04D0
+	class Shape* pInteractableShape; //0x04D8
+	char pad_04E0[52]; //0x04E0
+	float jumpHeight; //0x0514
+	char pad_0518[8]; //0x0518
+	class Water* pSwimmingWater; //0x0520
+	float underwaterDepth; //0x0528 Only updates when player is touching water
+	bool isUnderwater; //0x052C
+	char pad_052D[3]; //0x052D
+	float playedTime2; //0x0530 Starts at 3, counts total play time (resets on restart / level load)
+	float playedTime; //0x0534
+	float underwaterTime; //0x0538 Starts drowning at 10s
+	char pad_053C[5]; //0x053C
+	bool canUseTool; //0x0541
+	char pad_0542[2304]; //0x0542
+}; //Size: 0x0E42

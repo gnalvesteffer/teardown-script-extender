@@ -8,99 +8,19 @@
 #include "Logger.h"
 
 #include "Menu.h"
+#include "Shaders.h"
 
-#include <GL/glew.h>
-#include <gl/GL.h>
+#include <detours.h>
 
-typedef void*	(*tSetupShader)						(void* pData, void* a2, small_string* shader, small_string* includes, small_string* params);
-tSetupShader SetupShader;
+tglGetUniformLocation Teardown::Shaders::tdglGetUniformLocation;
+tSetShaderFloat Teardown::Shaders::SetShaderFloat;
+tSetShaderVec Teardown::Shaders::SetShaderVec4;
+tSetShaderVec Teardown::Shaders::SetShaderVec3;
+tSetShaderVec Teardown::Shaders::SetShaderVec2;
+tSetupShader Teardown::Shaders::SetupShader;
+tSetShaderSampler2D Teardown::Shaders::SetShaderSampler2D;
 
-typedef void	(*tSetShaderSampler2D)				(GLuint* program, const GLchar *name, GLint* value);
-tSetShaderSampler2D SetShaderSampler2D;
-
-typedef void	(*tSetShaderVec)					(GLuint *program, GLint location, const GLfloat *value);
-tSetShaderVec SetShaderVec4;
-tSetShaderVec SetShaderVec3;
-tSetShaderVec SetShaderVec2;
-
-typedef void	(*tSetShaderFloat)					(GLuint *program, GLint location, float value);
-tSetShaderFloat SetShaderFloat;
-
-typedef GLint	(*tglGetUniformLocation)			(GLuint *program, const GLchar *name);
-tglGetUniformLocation tdglGetUniformLocation;
-
-void hSetShaderVec4(GLuint *program, GLint location, const GLfloat *value)
-{
-	if (location != -1)
-	{
-		if (Menu::overrideAmbient && tdglGetUniformLocation(program, "uAmbientColorAvg") == location)
-		{
-			const GLfloat* newAmbient = (GLfloat*)&Menu::ambientColourAvg;
-			return SetShaderVec4(program, location, newAmbient);
-		}
-
-		if (Menu::overrideFog && tdglGetUniformLocation(program, "uFogColor") == location)
-		{
-			const GLfloat* newFogColour = (GLfloat*)&Menu::fogColour;
-			SetShaderVec4(program, location, newFogColour);
-			return;
-		}
-	}
-	SetShaderVec4(program, location, value);
-}
-
-void hSetShaderFloat(GLuint *program, GLint location, float value)
-{
-	if (location != -1)
-	{
-		if (Menu::overrideDOF)
-		{
-			if (location == tdglGetUniformLocation(program, "uFocusMin"))
-				return SetShaderFloat(program, location, Menu::focusMin);
-
-			if (location == tdglGetUniformLocation(program, "uFocusMax"))
-				return SetShaderFloat(program, location, Menu::focusMax);
-		}
-
-		if (Menu::overrideWetness)
-		{
-			if (location == tdglGetUniformLocation(program, "uWetness"))
-				return SetShaderFloat(program, location, Menu::wetness);
-
-			if (location == tdglGetUniformLocation(program, "uPuddleAmount"))
-				return SetShaderFloat(program, location, Menu::puddleAmount);
-
-			if (location == tdglGetUniformLocation(program, "uPuddleFreq"))
-				return SetShaderFloat(program, location, Menu::puddleFreq);
-		}
-
-		if (Menu::overrideWater)
-		{
-			if (location == tdglGetUniformLocation(program, "uFoam"))
-			{
-				return SetShaderFloat(program, location, Menu::foam);
-			}
-
-			if (location == tdglGetUniformLocation(program, "uWave"))
-			{
-				return SetShaderFloat(program, location, Menu::wave);
-			}
-
-			if (location == tdglGetUniformLocation(program, "uMotion"))
-			{
-				return SetShaderFloat(program, location, Menu::motion);
-			}
-
-			if (location == tdglGetUniformLocation(program, "uRipple"))
-			{
-				return SetShaderFloat(program, location, Menu::ripple);
-			}
-		}
-	}
-	SetShaderFloat(program, location, value);
-}
-
-void Teardown::Functions::Shaders::GetFunctionAddresses()
+void Teardown::Shaders::getFunctionAddresses()
 {
 	DWORD64 dwSetShaderValue = Memory::FindPattern((PBYTE)"\xE8\x00\x00\x00\x00\x90\x48\x8D\x4D\xC0\xE8\x00\x00\x00\x00\x90\x48\x8D\x4D\xB0", "x????xxxxxx????xxxxx", Globals::gModule);
 	SetupShader = (tSetupShader)Memory::readPtr(dwSetShaderValue, 1);
@@ -123,13 +43,11 @@ void Teardown::Functions::Shaders::GetFunctionAddresses()
 	DWORD64 dwglGetUniformLocation = Memory::FindPattern((PBYTE)"\xE8\x00\x00\x00\x00\x89\x45\xB8", "x????xxx", Globals::gModule);
 	tdglGetUniformLocation = (tglGetUniformLocation)Memory::readPtr(dwglGetUniformLocation, 1);
 
-	DetourTransactionBegin();
-	DetourUpdateThread(GetCurrentThread());
-	DetourAttach(&(PVOID&)SetShaderVec4, hSetShaderVec4);
-	DetourTransactionCommit();
-
-	DetourTransactionBegin();
-	DetourUpdateThread(GetCurrentThread());
-	DetourAttach(&(PVOID&)SetShaderFloat, hSetShaderFloat);
-	DetourTransactionCommit();
+	WriteLog("SetShaderSampler2D: 0x%p", SetShaderSampler2D);
+	WriteLog("SetupShader: 0x%p", SetupShader);
+	WriteLog("SetShaderVec4: 0x%p", SetShaderVec4);
+	WriteLog("SetShaderVec3: 0x%p", SetShaderVec3);
+	WriteLog("SetShaderVec2: 0x%p", SetShaderVec2);
+	WriteLog("SetShaderFloat: 0x%p", SetShaderFloat);
+	WriteLog("tdglGetUniformLocation: 0x%p", tdglGetUniformLocation);
 }

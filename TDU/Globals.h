@@ -6,7 +6,7 @@
 #define GLOBALS
 namespace Globals
 {
-	static const std::string version("0.5");
+	static const std::string version("0.6");
 	extern HWND gWnd;
 	extern HMODULE gModule;
 	extern float FPS;

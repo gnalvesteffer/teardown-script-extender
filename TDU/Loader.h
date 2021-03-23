@@ -1,5 +1,5 @@
 #include "Logger.h"
-#include "Hooks.h"
+//#include "Hooks.h"
 #include "Globals.h"
 
 namespace Loader
@@ -10,7 +10,7 @@ namespace Loader
 		freopen("CONOUT$", "w", stdout);
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-
+		// enables ANSI shit
 		DWORD dwMode = 0;
 		GetConsoleMode(hConsole, &dwMode);
 		dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
@@ -24,8 +24,9 @@ namespace Loader
 		WriteLog("     \\::\\ \\   \\:\\/.:| |\\:\\_\\:\\ \\ ");
 		WriteLog("      \\__\\/    \\____/_/ \\_____\\/ ");
 		WriteLog("Teardown unleashed v%s", Globals::version.c_str());
+		WriteLog("Shout-out to Xorberax - SK83RJOSH - Knebb\n");
 
-		WriteLog("Initializing hooks");
-		Hooks::initCWHook();
+		//WriteLog("Hooking CreateWindow");
+		//Hooks::initCWHook();
 	}
 }

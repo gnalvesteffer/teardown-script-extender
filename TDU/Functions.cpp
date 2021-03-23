@@ -1,7 +1,9 @@
 #include "Teardown.h"
+#include "Shaders.h"
 
+// To-do:
+//		Expose more internal functions
 void Teardown::GetFunctionAddresses()
 {
-	Teardown::Functions::Data::GetFunctionAddresses();
-	Teardown::Functions::Shaders::GetFunctionAddresses();
+	Teardown::Shaders::getFunctionAddresses();
 }
