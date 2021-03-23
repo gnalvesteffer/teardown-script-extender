@@ -184,6 +184,9 @@
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp">
       <Filter>Source Files\ImGuiColorTextEdit</Filter>
     </ClCompile>
+    <ClCompile Include="MiscFunctions.cpp">
+      <Filter>Source Files\Teardown</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -314,6 +317,9 @@
     </ClInclude>
     <ClInclude Include="..\ImGuiColorTextEdit\TextEditor.h">
       <Filter>Source Files\ImGuiColorTextEdit</Filter>
+    </ClInclude>
+    <ClInclude Include="Functions.h">
+      <Filter>Source Files\Teardown</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

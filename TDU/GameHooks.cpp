@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include "Logger.h"
 #include "Teardown.h"
+#include "Functions.h"
+#include "TLua.h"
 
 #include <detours.h>
 
@@ -20,12 +22,16 @@ Vox* hCreateVox(void* a1, void* a2, void* a3, void* a4, void* a5)
 	return CreateVox(a1, a2, a3, a4, a5);
 }
 
+
 void hMainLoop(Game* game, void* a2)
 {
 	Teardown::pGame = game;
 	MainLoop(game, a2);
-
-	Teardown::pGame->statusTransition = Teardown::gameStatus::menu;
+	
+	// Automatically start level if debugging
+	#ifdef _DEBUG
+		Teardown::Lua::RunScript("StartLevel(\"lee_sandbox\", \"lee.xml\", \"sandbox\")");
+	#endif
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());

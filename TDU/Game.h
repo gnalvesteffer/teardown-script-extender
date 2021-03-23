@@ -292,12 +292,11 @@ public:
 	char pad_025C[24]; //0x025C
 	gameSettings gameSettings; //0x0274
 	char pad_02B0[24]; //0x02B0
-	char* levelXMLPath; //0x02C8
-	char pad_02D0[96]; //0x02D0
+	small_string levelXMLPath; //0x02C8
+	char pad_02D0[88]; //0x02D0
 	char* levelXMLPath2; //0x0330
 	char pad_0338[80]; //0x0338
-	char* currentlyEditingXMLPath; //0x0388
-	char pad_0390[8]; //0x0390
+	small_string currentlyEditingXMLPath; //0x0388
 	bool canReturnToEditor; //0x0398
 	char pad_0399[7]; //0x0399
 	char* editorTempXML; //0x03A0

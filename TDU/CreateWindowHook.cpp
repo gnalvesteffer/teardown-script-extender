@@ -4,6 +4,7 @@
 #include "Memory.h"
 #include "Teardown.h"
 #include "Menu.h"
+#include "Functions.h"
 
 #include <mutex>
 #include <detours.h>
@@ -32,7 +33,7 @@ HWND hCreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName, 
 		Globals::gWnd = oCreateWindowExA(dwExStyle, lpClassName, windowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 		Hooks::InputHooks::hookWndProc();
 		Hooks::initGameHooks();
-		Teardown::GetFunctionAddresses();
+		Teardown::Functions::getFunctionAddresses();
 
 		return Globals::gWnd;
 	}

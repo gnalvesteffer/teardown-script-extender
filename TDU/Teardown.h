@@ -4,5 +4,4 @@
 namespace Teardown
 {
 	extern Game* pGame;
-	void GetFunctionAddresses();
 }
