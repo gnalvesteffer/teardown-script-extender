@@ -101,28 +101,8 @@ void Menu::Draw()
 		ImGui::Text("Paused: %s", Teardown::pGame->isPaused ? "true" : "false");
 		ImGui::Text("Current status: %s", gameStatusStr[Teardown::pGame->Status - 1]);
 		ImGui::Text("Goal status: %s", Teardown::pGame->statusTransition != 0 ? gameStatusStr[Teardown::pGame->statusTransition - 1] : "None");
-
-		ImGui::Checkbox("Draw bounds", &Teardown::pGame->pShaderSystem->drawBounds);
-		ImGui::Checkbox("Draw bodies", &Teardown::pGame->pShaderSystem->drawBodies);
-		ImGui::Checkbox("Draw shapes", &Teardown::pGame->pShaderSystem->drawShapes);
-		ImGui::Checkbox("Draw shadowvolume", &Teardown::pGame->pShaderSystem->drawShadowVolume);
-
-		if (ImGui::BeginCombo("Render buffer", rendertargets[currentRTIndex]))
-		{
-			for (int n = 0; n < IM_ARRAYSIZE(rendertargets); n++)
-			{
-				const bool is_selected = (currentRTIndex == n);
-				if (ImGui::Selectable(rendertargets[n], is_selected))
-				{
-					Teardown::pGame->pShaderSystem->renderBuffer = small_string(rendertargets[n]);
-					currentRTIndex = n;
-				}
-					
-				if (is_selected)
-					ImGui::SetItemDefaultFocus();
-			}
-			ImGui::EndCombo();
-		}
+		
+		ImGui::Checkbox("Show Teardown Debug Menu", &Teardown::pGame->pDebugging->showMenu);
 
 		ImGui::EndChild();
 	}

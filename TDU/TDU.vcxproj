@@ -70,14 +70,14 @@
       </IntrinsicFunctions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <LanguageStandard>Default</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0;D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>glew32s.lib;OpenGL32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\_dev\_gavin\_cpp\glew-2.1.0\lib\Release\x64;D:\_dev\_gavin\_cpp\Detours-4.0.1\lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0\stage\lib;D:\_dev\_gavin\_cpp\glew-2.1.0\lib\Release\x64;D:\_dev\_gavin\_cpp\Detours-4.0.1\lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -93,7 +93,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>Default</LanguageStandard>
-      <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0;D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,7 +102,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>glew32s.lib;OpenGL32.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>D:\_dev\_gavin\_cpp\glew-2.1.0\lib\Release\x64;D:\_dev\_gavin\_cpp\Detours-4.0.1\lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0\stage\lib;D:\_dev\_gavin\_cpp\glew-2.1.0\lib\Release\x64;D:\_dev\_gavin\_cpp\Detours-4.0.1\lib.X64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
