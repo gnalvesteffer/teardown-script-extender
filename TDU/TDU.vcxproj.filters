@@ -29,6 +29,9 @@
     <Filter Include="Source Files\ImGuiColorTextEdit">
       <UniqueIdentifier>{aea08c31-7e0c-4447-a6e0-2466274fea53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Teardown\Functions">
+      <UniqueIdentifier>{6ad9c19f-5d64-4557-a4c9-ad0d82a149ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -172,20 +175,20 @@
     <ClCompile Include="PlayerHooks.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="Shaders.cpp">
-      <Filter>Source Files\Teardown</Filter>
-    </ClCompile>
-    <ClCompile Include="Functions.cpp">
-      <Filter>Source Files\Teardown</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiBuild.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp">
       <Filter>Source Files\ImGuiColorTextEdit</Filter>
     </ClCompile>
-    <ClCompile Include="MiscFunctions.cpp">
-      <Filter>Source Files\Teardown</Filter>
+    <ClCompile Include="Entities.cpp">
+      <Filter>Source Files\Teardown\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Functions.cpp">
+      <Filter>Source Files\Teardown\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="Shaders.cpp">
+      <Filter>Source Files\Teardown\Functions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -309,9 +312,6 @@
     <ClInclude Include="LuaFunctions.h">
       <Filter>Source Files\Features\LuaFunctions</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
-      <Filter>Source Files\Teardown</Filter>
-    </ClInclude>
     <ClInclude Include="imguiCPP.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -319,7 +319,7 @@
       <Filter>Source Files\ImGuiColorTextEdit</Filter>
     </ClInclude>
     <ClInclude Include="Functions.h">
-      <Filter>Source Files\Teardown</Filter>
+      <Filter>Source Files\Teardown\Functions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

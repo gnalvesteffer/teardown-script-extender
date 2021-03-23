@@ -55,7 +55,7 @@ public:
 		memcpy(dst, str, len);
 		dst[len] = 0;
 	}
-	small_string(const small_string&) = delete;
+	//small_string(const small_string&) = delete;
 	//void operator=(const small_string&) = delete;
 	~small_string() {
 		if (m_StackBuffer[15])

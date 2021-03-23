@@ -3,7 +3,6 @@
 #include "Features.h"
 #include "Teardown.h"
 #include "TLua.h"
-#include "Shaders.h"
 #include "Memory.h"
 #include "Hooks.h"
 

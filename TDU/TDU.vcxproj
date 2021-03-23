@@ -172,6 +172,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="Entities.cpp" />
     <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="CreateWindowHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -179,7 +180,6 @@
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="InitHooks.cpp" />
     <ClCompile Include="InputHook.cpp" />
-    <ClCompile Include="MiscFunctions.cpp" />
     <ClCompile Include="LogHook.cpp" />
     <ClCompile Include="Lua\lapi.c" />
     <ClCompile Include="Lua\lauxlib.c" />
@@ -237,7 +237,6 @@
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Shaders.h" />
     <ClInclude Include="TLua.h" />
     <ClInclude Include="Lua.hpp" />
     <ClInclude Include="Lua\lapi.h" />

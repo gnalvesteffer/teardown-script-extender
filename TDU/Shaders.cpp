@@ -1,26 +1,25 @@
 #include <Windows.h>
 #include <detours.h>
-#include <algorithm>
 
 #include "Teardown.h"
 #include "Memory.h"
 #include "Globals.h"
 #include "Logger.h"
+#include "Functions.h"
 
 #include "Menu.h"
-#include "Shaders.h"
 
 #include <detours.h>
 
-tglGetUniformLocation Teardown::Shaders::tdglGetUniformLocation;
-tSetShaderFloat Teardown::Shaders::SetShaderFloat;
-tSetShaderVec Teardown::Shaders::SetShaderVec4;
-tSetShaderVec Teardown::Shaders::SetShaderVec3;
-tSetShaderVec Teardown::Shaders::SetShaderVec2;
-tSetupShader Teardown::Shaders::SetupShader;
-tSetShaderSampler2D Teardown::Shaders::SetShaderSampler2D;
+tglGetUniformLocation Teardown::Functions::Shaders::tdglGetUniformLocation;
+tSetShaderFloat Teardown::Functions::Shaders::SetShaderFloat;
+tSetShaderVec Teardown::Functions::Shaders::SetShaderVec4;
+tSetShaderVec Teardown::Functions::Shaders::SetShaderVec3;
+tSetShaderVec Teardown::Functions::Shaders::SetShaderVec2;
+tSetupShader Teardown::Functions::Shaders::SetupShader;
+tSetShaderSampler2D Teardown::Functions::Shaders::SetShaderSampler2D;
 
-void Teardown::Shaders::getFunctionAddresses()
+void Teardown::Functions::Shaders::getFunctionAddresses()
 {
 	DWORD64 dwSetShaderValue = Memory::FindPattern((PBYTE)"\xE8\x00\x00\x00\x00\x90\x48\x8D\x4D\xC0\xE8\x00\x00\x00\x00\x90\x48\x8D\x4D\xB0", "x????xxxxxx????xxxxx", Globals::gModule);
 	SetupShader = (tSetupShader)Memory::readPtr(dwSetShaderValue, 1);
