@@ -37,7 +37,6 @@ namespace Loader
 		// Get the game's HMODULE to be later used (as base address) when reading memory
 		Globals::HModule = GetModuleHandle(NULL);
 
-		Hooks::InitHooks();
-		Teardown::Functions::GetAddresses();
+		Hooks::BaseHooks::HookCW();
 	}
 }

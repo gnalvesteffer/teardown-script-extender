@@ -1,9 +1,11 @@
 #include "Hooks.h"
 #include "Logger.h"
+#include "TeardownFunctions.h"
 
 void Hooks::InitHooks()
 {
-	Hooks::BaseHooks::HookCW();
+	Teardown::Functions::GetAddresses();
+
 	Hooks::BaseHooks::HookMain();
 
 	Hooks::GLHooks::HookGlewInit();
