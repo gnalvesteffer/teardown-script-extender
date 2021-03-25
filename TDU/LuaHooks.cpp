@@ -7,6 +7,8 @@
 
 #include "Lua.hpp"
 
+#include <detours.h>
+
 typedef int	(*tluaL_loadbuffer)				(lua_State* L, const char* buff, size_t size, const char* name);
 tluaL_loadbuffer oluaL_loadbuffer;
 
@@ -28,4 +30,9 @@ void Hooks::LuaHooks::HookLoadBuffer()
 	oluaL_loadbuffer = (tluaL_loadbuffer)Memory::readPtr(dwLoadBuffer, 1);
 
 	WriteLog(LogType::Address, "luaL_loadbuffer: 0x%p | hook: 0x%p", oluaL_loadbuffer, hluaL_loadbuffer);
+
+	DetourTransactionBegin();
+	DetourUpdateThread(GetCurrentThread());
+	DetourAttach(&(PVOID&)oluaL_loadbuffer, hluaL_loadbuffer);
+	DetourTransactionCommit();
 }
