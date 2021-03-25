@@ -39,7 +39,7 @@ void Cheats::Noclip::Run()
 	if (!Enabled)
 		return;
 
-	if (Teardown::pGame->Status != Teardown::gameStatus::playing)
+	if (Teardown::pGame->State != Teardown::gameState::playing || Teardown::pGame->pScene->pCurrentScreen || Teardown::pGame->pScene->pCurrentVehicle)
 	{
 		Toggle();
 		return;
