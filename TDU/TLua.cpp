@@ -28,6 +28,15 @@ void register_lua_functions(lua_State* L)
     lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lReadFile);
     lua_setfield(L, -2, "ReadFile");
 
+    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lSendUdpMessage);
+    lua_setfield(L, -2, "SendUdpMessage");
+
+    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lRegisterUdpMessageHandler);
+    lua_setfield(L, -2, "RegisterUdpMessageHandler");
+
+    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lGetMessagesForPort);
+    lua_setfield(L, -2, "GetMessagesForPort");
+
     lua_pop(L, 1);
 }
 
@@ -37,33 +46,6 @@ int hluaL_loadbuffer(lua_State* L, const char* buff, size_t size, const char* na
     WriteLog("loaded script: %s (size: %i)", name, size);
     return oluaL_loadbuffer(L, buff, size, name);
 }
-
-// Currently unused, it used to work (no idea now) but it's unfinished
-//lua_State* Teardown::Lua::CreateLuaState()
-//{
-//	ScriptCore* fakeSC = new ScriptCore;
-//	ScriptCore_LuaState fakeSCLS;
-//	fakeSCLS.pLuaStateInfo = new ScriptCore_LuaStateInfo;
-//	fakeSC->LuaState = fakeSCLS;
-//
-//	lua_State* L = lua_open();
-//
-//	luaopen_base(L);
-//	luaopen_debug(L);
-//	luaopen_string(L);
-//	luaopen_math(L);
-//
-//	fakeSC->LuaState.pLuaStateInfo->pLuaState = L;
-//
-//	RegisterGameFunctions((void*)fakeSC);
-//
-//	lua_getglobal(L, "_G");
-//	lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lPrint);
-//	lua_setfield(L, -2, "print");
-//	lua_pop(L, 1);
-//
-//	return L;
-//}
 
 void Teardown::Lua::RunScript(std::string script)
 {
@@ -82,12 +64,7 @@ void doExecution(lua_State* L)
     std::string currentScript = scriptQueue.back();
     scriptQueue.pop_back();
 
-    lua_getglobal(L, "_G");
-    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lPrint);
-    lua_setfield(L, -2, "print");
-    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lSetPlayerVel);
-    lua_setfield(L, -2, "SetPlayerVel");
-    lua_pop(L, 1);
+    //register_lua_functions(L_);
 
     luaopen_debug(L);
 

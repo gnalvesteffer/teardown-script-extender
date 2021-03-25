@@ -94,6 +94,7 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>Default</LanguageStandard>
       <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0;D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -107,6 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="GetMessagesForPort.cpp" />
     <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="CreateWindowHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -153,7 +155,9 @@
     <ClCompile Include="Noclip.cpp" />
     <ClCompile Include="PlayerHooks.cpp" />
     <ClCompile Include="ReadFile.cpp" />
+    <ClCompile Include="RegisterUdpMessageHandler.cpp" />
     <ClCompile Include="RenderHooks.cpp" />
+    <ClCompile Include="SendUdpMessage.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Teardown.cpp" />
     <ClCompile Include="TextFunctions.cpp" />
@@ -173,6 +177,7 @@
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="LuaFunctionState.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="TLua.h" />
     <ClInclude Include="Lua.hpp" />

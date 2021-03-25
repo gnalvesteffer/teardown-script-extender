@@ -29,6 +29,9 @@
     <Filter Include="Source Files\ImGuiColorTextEdit">
       <UniqueIdentifier>{aea08c31-7e0c-4447-a6e0-2466274fea53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Features\LuaFunctions\Types">
+      <UniqueIdentifier>{57d92dcf-8493-4223-9a07-5a3718022587}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -190,6 +193,15 @@
     <ClCompile Include="ReadFile.cpp">
       <Filter>Source Files\Features\LuaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="SendUdpMessage.cpp">
+      <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="RegisterUdpMessageHandler.cpp">
+      <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="GetMessagesForPort.cpp">
+      <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -309,9 +321,6 @@
     <ClInclude Include="TLua.h">
       <Filter>Source Files\Teardown</Filter>
     </ClInclude>
-    <ClInclude Include="LuaFunctions.h">
-      <Filter>Source Files\Features\LuaFunctions</Filter>
-    </ClInclude>
     <ClInclude Include="Shaders.h">
       <Filter>Source Files\Teardown</Filter>
     </ClInclude>
@@ -323,6 +332,12 @@
     </ClInclude>
     <ClInclude Include="Functions.h">
       <Filter>Source Files\Teardown</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaFunctions.h">
+      <Filter>Source Files\Features\LuaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="LuaFunctionState.h">
+      <Filter>Source Files\Features\LuaFunctions\Types</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
