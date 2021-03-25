@@ -5,45 +5,40 @@
 class ScriptCore_LuaStateInfo
 {
 public:
-	lua_State *pLuaState; //0x0000
-	char pad_0008[312]; //0x0008
-}; // Size: 0x140
+	lua_State* pLuaState; //0x0000
+	char pad_0008[80]; //0x0008
+}; //Size: 0x0058
 
 class ScriptCore_LuaState
 {
 public:
-	char pad_0000[48]; //0x0000
-	ScriptCore_LuaStateInfo *pLuaStateInfo; //0x0030
-};
+	char pad_0000[56]; //0x0000
+	ScriptCore_LuaStateInfo* pLSInfo; //0x0038
+}; //Size: 0x0040
 
 class ScriptCore
 {
 public:
-	char pad_01[16]; //0x0008
-	char *scriptName; //0x0010
-	char pad_03[24]; //0x0018
-	ScriptCore_LuaState LuaState; //0x0030
-	char pad_04[384]; //0x0068
+	char pad_0008[40]; //0x0008
+	ScriptCore_LuaState SC_LuaState; //0x0030
+	char pad_0070[2592]; //0x0070
 
-	virtual void Destroy(ScriptCore* sc, bool freeMem);
-	virtual void registerGameFunctions(ScriptCore_LuaState* state);
-	virtual void loadScript(ScriptCore* self, char* scriptName);
-	virtual void Function04();
-	virtual void Function05();
-	virtual void Function06();
-	virtual void Function07();
-	virtual void Function08();
-	virtual void Function09();
-}; // Size: 0x1C0
+	virtual void Destroy(ScriptCore* pScriptCore, bool freeMemory);
+	virtual void RegisterGameFunctions(ScriptCore* pScriptCore);
+	virtual void Function2();
+	virtual void Function3();
+	virtual void Function4();
+	virtual void Function5();
+	virtual void Function6();
+	virtual void Function7();
+	virtual void Function8();
+}; //Size: 0xA90
 
-class Script : public Entity, public ScriptCore
+
+class Script : public Entity
 {
-	ScriptCore	sCore;			//	0x38
-	char		pad_02[456];	// 0x40
-
-	virtual void Function01();
-	virtual void Function02();
-	virtual void Function03();
-	virtual void Function04();
-}; // Total size: 0xAC8
-
+public:
+	char* scriptName; //0x0028
+	char pad_0030[8]; //0x0030
+	class ScriptCore scriptCore; //0x0038
+}; //Size: 0xAC8

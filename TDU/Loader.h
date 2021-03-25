@@ -1,32 +1,43 @@
 #include "Logger.h"
-#include "Hooks.h"
 #include "Globals.h"
+#include "Config.h"
+#include "Hooks.h"
+#include "Cheats.h"
+#include "TDLua.h"
+#include "TeardownFunctions.h"
 
 namespace Loader
 {
 	inline void Init()
 	{
+	
+	#if SHOW_CONSOLE
+		// allocate console for logging
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);
 		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-		// enables ANSI shit
+		// enable escape sequences
 		DWORD dwMode = 0;
 		GetConsoleMode(hConsole, &dwMode);
 		dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 		SetConsoleMode(hConsole, dwMode);
+	#endif
 
-		WriteLog(" _________  ______   __  __      ");
-		WriteLog("/________/\\/_____/\\ /_/\\/_/\\     ");
-		WriteLog("\\__.::.__\\/\\:::_ \\ \\\\:\\ \\:\\ \\    ");
-		WriteLog("   \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\   ");
-		WriteLog("    \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\  ");
-		WriteLog("     \\::\\ \\   \\:\\/.:| |\\:\\_\\:\\ \\ ");
-		WriteLog("      \\__\\/    \\____/_/ \\_____\\/ ");
-		WriteLog("Teardown unleashed v%s", Globals::version.c_str());
-		WriteLog("Shout-out to Xorberax - SK83RJOSH - Knebb\n");
+		WriteLog(LogType::Special, " _________  ______   __  __      ");
+		WriteLog(LogType::Special, "/________/\\/_____/\\ /_/\\/_/\\     ");
+		WriteLog(LogType::Special, "\\__.::.__\\/\\:::_ \\ \\\\:\\ \\:\\ \\    ");
+		WriteLog(LogType::Special, "   \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\   ");
+		WriteLog(LogType::Special, "    \\::\\ \\   \\:\\ \\ \\ \\\\:\\ \\:\\ \\  ");
+		WriteLog(LogType::Special, "     \\::\\ \\   \\:\\/.:| |\\:\\_\\:\\ \\ ");
+		WriteLog(LogType::Special, "      \\__\\/    \\____/_/ \\_____\\/ ");
+		WriteLog(LogType::Special, "Teardown unleashed v%s", Globals::version.c_str());
+		WriteLog(LogType::Special, "Shout-out to Xorberax - SK83RJOSH - Knebb\n");
 
-		WriteLog("Hooking CreateWindow");
-		Hooks::initCWHook();
+		// Get the game's HMODULE to be later used (as base address) when reading memory
+		Globals::HModule = GetModuleHandle(NULL);
+
+		Hooks::InitHooks();
+		Teardown::Functions::GetAddresses();
 	}
 }

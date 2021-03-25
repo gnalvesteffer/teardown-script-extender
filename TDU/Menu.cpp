@@ -1,37 +1,21 @@
-#include "Menu.h"
+#include "Cheats.h"
 #include "Globals.h"
-#include "Features.h"
 #include "Teardown.h"
-#include "TLua.h"
-#include "Memory.h"
-#include "Hooks.h"
+#include "Types.h"
+#include "TDLua.h"
 
 #include <imgui.h>
-#include <imgui_internal.h>
-#include "../ImGuiColorTextEdit/TextEditor.h"
-
-bool Menu::drawMenu = false;
-
-Vector3 prevPos = Vector3(0, 0, 0);
-bool lockPos = false;
-
-Vector3 prevVel = Vector3(0, 0, 0);
-bool lockVel = false;
-
-bool noAttackCooldown = false;
-bool noRecoil = false;
-bool godMode = false;
-bool grabCheck = true;
-
-const char* rendertargets[] = { "final", "depth", "color", "normal", "smoothnormal", "rawlight", "diffuselight", "diffuse", "reflection", "fog", "composite", "bloom"};
-int currentRTIndex = 0;
+#include <TextEditor.h>
+#include <mutex>
 
 ImGuiIO* IO;
 ImGuiStyle* Style;
 
 TextEditor scriptEditor;
 
-void Menu::Init()
+std::once_flag hasInitializedMenu;
+
+void Init()
 {
 	IO = &ImGui::GetIO();
 	Style = &ImGui::GetStyle();
@@ -40,66 +24,50 @@ void Menu::Init()
 	scriptEditor.SetLanguageDefinition(LuaLang);
 }
 
-void Menu::Draw()
+const char* rendertargets[] = { "final", "depth", "color", "normal", "smoothnormal", "rawlight", "diffuselight", "diffuse", "reflection", "fog", "composite", "bloom" };
+int currentRTIndex = 0;
+
+bool God = false;
+bool noCooldown = false;
+bool noRecoil = false;
+
+void Cheats::Menu::Draw()
 {
-	IO->MouseDrawCursor = Menu::drawMenu;
+	std::call_once(hasInitializedMenu, Init);
 
 	Globals::FPS = IO->Framerate;
 
-	if (!lockPos)
-		prevPos = Teardown::pGame->pPlayer->Position;
-	else
-		Teardown::pGame->pPlayer->Position = prevPos;
-
-	if (!lockVel)
-		prevVel = Teardown::pGame->pPlayer->Velocity;
-	else
-		Teardown::pGame->pPlayer->Velocity = prevVel;
-
-	if (godMode)
+	if (God)
 		Teardown::pGame->pPlayer->Health = 1;
 
-	if (noAttackCooldown)
+	if (noCooldown)
 		Teardown::pGame->pPlayer->toolCooldown = 0;
 
 	if (noRecoil)
 		Teardown::pGame->pPlayer->recoil = 0;
 
-	if (!drawMenu)
+	IO->MouseDrawCursor = Enabled;
+	if (!Enabled)
 		return;
-	
+
 	ImGui::SetNextWindowPos(ImVec2(IO->DisplaySize.x / 20, IO->DisplaySize.y / 20), ImGuiCond_FirstUseEver);
 	ImGui::SetNextWindowSize(ImVec2(IO->DisplaySize.x / 3, IO->DisplaySize.y / 2), ImGuiCond_FirstUseEver);
+
 	ImGui::Begin("TDU - Debug Menu", 0);
+
 	ImVec2 CRA = ImGui::GetContentRegionAvail();
-	ImGui::BeginChild("#GameInfo", ImVec2(0, CRA.y / 2), true, ImGuiWindowFlags_MenuBar);
-	{
-		if (ImGui::BeginMenuBar())
-		{
+	ImGui::BeginChild("#GameInfo", ImVec2(0, CRA.y / 2), true, ImGuiWindowFlags_MenuBar); {
+		if (ImGui::BeginMenuBar()) {
 			ImGui::Text("Game info");
 			ImGui::EndMenuBar();
 		}
-		ImGui::Text("Game: 0x%p", Teardown::pGame);
-		ImGui::Text("Scene: 0x%p", Teardown::pGame->pScene);
-		ImGui::Text("Player: 0x%p", Teardown::pGame->pPlayer);
-		ImGui::Text("Renderer: 0x%p", Teardown::pGame->pShaderSystem);
-		ImGui::Separator();
-		if (ImGui::Button("Load save"))
-		{
-			Teardown::pGame->isLoadingSave = true;
-			Teardown::pGame->statusTransition = Teardown::gameStatus::playing;
-		}
-		ImGui::SameLine();
-		ImGui::PushItemFlag(ImGuiItemFlags_Disabled, !Teardown::pGame->isPlaying);
-		if (ImGui::Button("Write save"))
-			Teardown::pGame->isSaving = true;
-		ImGui::PopItemFlag();
 
 		ImGui::Text("FPS: %f", Globals::FPS);
 		ImGui::Text("Playing: %s", Teardown::pGame->isPlaying ? "true" : "false");
 		ImGui::Text("Paused: %s", Teardown::pGame->isPaused ? "true" : "false");
-		ImGui::Text("Current status: %s", gameStatusStr[Teardown::pGame->Status - 1]);
-		ImGui::Text("Goal status: %s", Teardown::pGame->statusTransition != 0 ? gameStatusStr[Teardown::pGame->statusTransition - 1] : "None");
+		ImGui::Text("Current status: %s", Teardown::gameStatusStr[Teardown::pGame->Status - 1]);
+
+		ImGui::Separator();
 
 		ImGui::Checkbox("Draw bounds", &Teardown::pGame->pShaderSystem->drawBounds);
 		ImGui::Checkbox("Draw bodies", &Teardown::pGame->pShaderSystem->drawBodies);
@@ -116,15 +84,15 @@ void Menu::Draw()
 					Teardown::pGame->pShaderSystem->renderBuffer = small_string(rendertargets[n]);
 					currentRTIndex = n;
 				}
-					
+
 				if (is_selected)
 					ImGui::SetItemDefaultFocus();
 			}
 			ImGui::EndCombo();
 		}
-
-		ImGui::EndChild();
 	}
+	ImGui::EndChild();
+
 	ImGui::BeginChild("#PlayerInfo", ImVec2(0, CRA.y / 2), true, ImGuiWindowFlags_MenuBar);
 	{
 		if (ImGui::BeginMenuBar())
@@ -135,36 +103,30 @@ void Menu::Draw()
 
 		ImGui::InputFloat("Health", &Teardown::pGame->pPlayer->Health);
 		ImGui::SameLine();
-		ImGui::Checkbox("Godmode", &godMode);
+		ImGui::Checkbox("Godmode", &God);
 
 		ImGui::InputFloat("Attack cooldown", &Teardown::pGame->pPlayer->toolCooldown);
 		ImGui::SameLine();
-		ImGui::Checkbox("No cooldown", &noAttackCooldown);
+		ImGui::Checkbox("No cooldown", &noCooldown);
+
 		ImGui::SliderFloat("Recoil", &Teardown::pGame->pPlayer->recoil, 0, 1);
 		ImGui::SameLine();
 		ImGui::Checkbox("No recoil", &noRecoil);
 
-		ImGui::InputFloat3("Position", (float*)&prevPos);
-		ImGui::SameLine();
-		ImGui::Checkbox("Lock##Pos", &lockPos);
-		ImGui::InputFloat3("Velocity", (float*)&prevVel);
-		ImGui::SameLine();
-		ImGui::Checkbox("Lock##Vel", &lockVel);
-		if (ImGui::Checkbox("Verify object before grabbing", &grabCheck))
-		{
-			Hooks::PlayerHooks::updateGrabCheck(grabCheck);
-		}
+		ImGui::InputFloat3("Position", (float*)&Teardown::pGame->pPlayer->Position);
+		ImGui::InputFloat3("Velocity", (float*)&Teardown::pGame->pPlayer->Velocity);
 
 		ImGui::Separator();
-		ImGui::SliderFloat("Noclip speed", &Features::Noclip::NoclipSpeed, 1.f, 100.f);
+		ImGui::SliderFloat("Noclip speed", &Cheats::Noclip::Speed, 0.f, 1.f);
 		ImGui::EndChild();
 	}
+
 	ImGui::End();
 
 	ImGui::SetNextWindowPos(ImVec2((IO->DisplaySize.x / 20 * 2) + IO->DisplaySize.x / 3, IO->DisplaySize.y / 20), ImGuiCond_FirstUseEver);
 	ImGui::SetNextWindowSize(ImVec2(IO->DisplaySize.x / 3, IO->DisplaySize.y / 2), ImGuiCond_FirstUseEver);
 
-	ImGui::Begin("Script editor [unstable]", 0);
+	ImGui::Begin("Script editor", 0);
 
 	ImVec2 WindowSize = ImGui::GetContentRegionAvail();
 	ImVec2 textSize = ImGui::CalcTextSize("execute", NULL, true);
@@ -172,7 +134,7 @@ void Menu::Draw()
 	ImVec2 childSize(WindowSize.x, WindowSize.y - size.y - Style->ItemSpacing.y);
 
 	ImGui::BeginChild("##ScriptExecChild", childSize);
-		scriptEditor.Render("scriptEditor");
+	scriptEditor.Render("scriptEditor");
 	ImGui::EndChild();
 
 	if (ImGui::Button("Run"))

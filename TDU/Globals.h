@@ -1,14 +1,12 @@
 #pragma once
+
 #include <string>
 #include <Windows.h>
 
-#ifndef GLOBALS
-#define GLOBALS
 namespace Globals
 {
-	static const std::string version("0.6");
-	extern HWND gWnd;
-	extern HMODULE gModule;
-	extern float FPS;
+	inline std::string version("0.7 - Full rewrite edition");
+	inline HWND HWnd;
+	inline HMODULE HModule;
+	inline float FPS;
 }
-#endif

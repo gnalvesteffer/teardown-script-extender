@@ -1,74 +1,75 @@
-#include "Features.h"
-#include "Teardown.h"
+#include "Cheats.h"
 #include "Hooks.h"
-#include "Globals.h"
-#include "Logger.h"
+#include "Teardown.h"
 
 #include <Windows.h>
 
+#include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-bool Features::Noclip::Enabled = false;
+#include "Time.h"
 
-float Features::Noclip::NoclipSpeed = 15.f;
-Vector3 newPos;
-Vector3 exitVel;
+glm::vec3 newPos;
+glm::vec3 exitSpeed;
 
-Vector3 heightOffset(0, 1.7, 0);
+glm::vec3 heightOffset(0.f, 1.7f, 0.f);
 
-glm::quat newRot;
+glm::quat newRotation;
 
-void Features::Noclip::toggleNoclip()
+int64_t lastRegisteredTime;
+
+void Cheats::Noclip::Toggle()
 {
-	Features::Noclip::Enabled = !Features::Noclip::Enabled;
+	Enabled = !Enabled;
 
-	Hooks::PlayerHooks::updateCamera = !Features::Noclip::Enabled;
-	Hooks::PlayerHooks::updateCollisions = !Features::Noclip::Enabled;
+	Hooks::PlayerHooks::doUpdateCamera = !Enabled;
+	Hooks::PlayerHooks::doUpdateCollisions = !Enabled;
 
-	if (!Features::Noclip::Enabled)
-	{
-		Teardown::pGame->pPlayer->Velocity = exitVel;
-	}
+	if (!Enabled)
+		Teardown::pGame->pPlayer->Velocity = exitSpeed;
 	else
 	{
 		newPos = Teardown::pGame->pPlayer->cameraPosition2;
+		lastRegisteredTime = Time::timeAsMilliseconds();
 	}
 }
 
-void Features::Noclip::doNoclip()
+void Cheats::Noclip::Run()
 {
 	if (!Enabled)
 		return;
 
 	if (Teardown::pGame->Status != Teardown::gameStatus::playing)
 	{
-		toggleNoclip();
+		Toggle();
 		return;
 	}
-
-	Vector2 input = Teardown::pGame->pPlayer->moveKeys;
 
 	if (Teardown::pGame->isPaused)
 		return;
 
+	glm::vec2 input = Teardown::pGame->pPlayer->moveKeys;
+
 	glm::quat qXAxis = glm::angleAxis(Teardown::pGame->pPlayer->totalMouseDelta.x, glm::vec3(1.f, 0, 0));
 	glm::quat qYAxis = glm::angleAxis(Teardown::pGame->pPlayer->totalMouseDelta.y, glm::vec3(0, 1.f, 0));
 
-	newRot = qYAxis  * qXAxis;
+	newRotation = qYAxis * qXAxis;
+	Teardown::pGame->pPlayer->cameraRotation2 = newRotation;
 
-	Teardown::pGame->pPlayer->cameraRotation2 = newRot;
-	
-	exitVel = Vector3(0, 0, 0);
+	exitSpeed = glm::vec3(0, 0, 0);
+
+
+	uint64_t timeDelta = Time::timeAsMilliseconds() - lastRegisteredTime;
 
 	if (input.x != 0)
 	{
-		Vector3 fwdVec;
+		glm::vec3 fwdVec;
 
-		fwdVec.x = 2 * (newRot.x * newRot.z + newRot.w * newRot.y);
-		fwdVec.y = 2 * (newRot.y * newRot.z - newRot.w * newRot.x);
-		fwdVec.z = 1 - 2 * (newRot.x * newRot.x + newRot.y * newRot.y);
+		fwdVec.x = 2 * (newRotation.x * newRotation.z + newRotation.w * newRotation.y);
+		fwdVec.y = 2 * (newRotation.y * newRotation.z - newRotation.w * newRotation.x);
+		fwdVec.z = 1 - 2 * (newRotation.x * newRotation.x + newRotation.y * newRotation.y);
 
-		fwdVec *= input.x * (NoclipSpeed * Teardown::pGame->totalDelta);
+		fwdVec *= input.x * (Speed * timeDelta / 10);
 
 		if (GetAsyncKeyState(VK_SHIFT))
 			fwdVec *= 2.f;
@@ -77,18 +78,18 @@ void Features::Noclip::doNoclip()
 			fwdVec *= 0.25f;
 
 		newPos -= fwdVec;
-		exitVel -= fwdVec;
+		exitSpeed -= fwdVec;
 	}
 
 	if (input.y != 0)
 	{
-		Vector3 sideVec;
+		glm::vec3 sideVec;
 
-		sideVec.x = 1 - 2 * (newRot.y * newRot.y + newRot.z * newRot.z);
-		sideVec.y = 2 * (newRot.x * newRot.y + newRot.w * newRot.z);
-		sideVec.z = 2 * (newRot.x * newRot.z - newRot.w * newRot.y);
+		sideVec.x = 1 - 2 * (newRotation.y * newRotation.y + newRotation.z * newRotation.z);
+		sideVec.y = 2 * (newRotation.x * newRotation.y + newRotation.w * newRotation.z);
+		sideVec.z = 2 * (newRotation.x * newRotation.z - newRotation.w * newRotation.y);
 
-		sideVec *= input.y * (NoclipSpeed * Teardown::pGame->totalDelta);
+		sideVec *= input.y * (Speed * timeDelta / 10);
 
 		if (GetAsyncKeyState(VK_SHIFT))
 			sideVec *= 2.f;
@@ -97,13 +98,15 @@ void Features::Noclip::doNoclip()
 			sideVec *= 0.25f;
 
 		newPos += sideVec;
-		exitVel += sideVec;
+		exitSpeed += sideVec;
 	}
 
-	exitVel *= Globals::FPS;
+	exitSpeed *= (Teardown::pGame->pPlayer->cameraPosition2 - newPos).length() * timeDelta;
 
 	Teardown::pGame->pPlayer->cameraPosition2 = newPos;
 	Teardown::pGame->pPlayer->cameraPositionProcessed = newPos;
 
 	Teardown::pGame->pPlayer->Position = newPos - heightOffset;
+
+	lastRegisteredTime = Time::timeAsMilliseconds();
 }

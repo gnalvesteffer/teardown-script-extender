@@ -36,7 +36,7 @@ Grab the opengl32 dll from releases, and paste it on your game's root directory 
 * If you got any questions you can contact me at **Nahu#0331**
 
 ## Special thanks to
-* [SK83RJOSH](https://github.com/SK83RJOSH)
+* [SK83RJOSH](https://github.com/SK83RJOSH) | Seriously, [this](https://github.com/SK83RJOSH/Teardown) helped me so much, than you
 * [Xorberax](https://github.com/ss-gnalvesteffer)
 * [Nymda](https://github.com/nymda)
 

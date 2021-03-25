@@ -1,27 +1,42 @@
 #pragma once
-#include <Windows.h>
 
 namespace Hooks
 {
-	namespace PlayerHooks
+	namespace BaseHooks
 	{
-		void initPlayerHooks();
-		void updateGrabCheck(bool enabled);
-		extern bool updateCamera;
-		extern bool updateCollisions;
+		void HookCW();
+		void HookMain();
+	}
+	
+	namespace MiscHooks
+	{
+		void HookLogFunction();
 	}
 
 	namespace InputHooks
 	{
-		void hookWndProc();
-		void hookCursor();
+		void HookWndProc();
+		void HookCursorPos();
 	}
 
-	void initLoggerHook();
-	void initRenderHooks();
-	void initGameHooks();
-	void initCWHook();
-	void initLuaHooks();
+	namespace LuaHooks
+	{
+		void HookLoadBuffer();
+	}
 
-	void initHooks();
+	namespace GLHooks
+	{
+		void HookGlewInit();
+		void HookSwapBuffers();
+	}
+
+	namespace PlayerHooks
+	{
+		inline bool doUpdateCamera = true;
+		inline bool doUpdateCollisions = true;
+		void HookUpdateCamera();
+		void HookUpdateCollisions();
+	}
+
+	void InitHooks();
 }

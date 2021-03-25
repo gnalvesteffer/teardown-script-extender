@@ -1,4 +1,4 @@
-// Easier way to import lua headers
+// Lazy way to import lua headers 
 
 extern "C" {
 	#include "Lua/lua.h"
