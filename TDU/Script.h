@@ -21,15 +21,21 @@ class ScriptCore
 public:
 	char pad_0008[40]; //0x0008
 	ScriptCore_LuaState SC_LuaState; //0x0030
-	char pad_0070[2592]; //0x0070
+	bool hasCallbacks; // run init, tick, update or draw
+	bool hasInit; //0x0071
+	bool hasTick; //0x0072
+	bool hasUpdate; //0x0073
+	bool hasDraw; //0x0074
+	char pad_0075[2587]; //0x0075
+
 
 	virtual void Destroy(ScriptCore* pScriptCore, bool freeMemory);
 	virtual void RegisterGameFunctions(ScriptCore* pScriptCore);
-	virtual void Function2();
+	virtual void LoadScript();
 	virtual void Function3();
-	virtual void Function4();
-	virtual void Function5();
-	virtual void Function6();
+	virtual void callInit();
+	virtual void callTick();
+	virtual void callUpdate();
 	virtual void Function7();
 	virtual void Function8();
 }; //Size: 0xA90
