@@ -30,7 +30,7 @@ LRESULT	APIENTRY hWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return true;
 		}
 
-		if (wParam == 0x4E )
+		if (wParam == 0x4E && !Cheats::Menu::Enabled)
 		{
 			Cheats::Noclip::Toggle();
 			return true;
