@@ -65,7 +65,7 @@ void Cheats::Menu::Draw()
 		ImGui::Text("FPS: %f", Globals::FPS);
 		ImGui::Text("Playing: %s", Teardown::pGame->isPlaying ? "true" : "false");
 		ImGui::Text("Paused: %s", Teardown::pGame->isPaused ? "true" : "false");
-		ImGui::Text("Current status: %s", Teardown::gameStatusStr[Teardown::pGame->Status - 1]);
+		ImGui::Text("Current state: %s", Teardown::gameStateStr[Teardown::pGame->State - 1]);
 
 		ImGui::Separator();
 
