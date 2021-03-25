@@ -66,9 +66,9 @@ class Game
 {
 public:
 	char pad_0000[8]; //0x0000
-	int8_t Status; //0x0008 6: quitting | 5: editor | 4: in game | 3: starting ui | 2: in menu | 1: splash
+	int8_t State; //0x0008 6: quitting | 5: editor | 4: in game | 3: starting ui | 2: in menu | 1: splash
 	char pad_0009[3]; //0x0009
-	int8_t statusTransition; //0x000C
+	int8_t StateTransition; //0x000C
 	char pad_000D[3]; //0x000D
 	float loadingFade; //0x0010
 	bool isPlaying; //0x0014

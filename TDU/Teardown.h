@@ -3,7 +3,7 @@
 
 namespace Teardown
 {
-	enum gameStatus : int8_t
+	enum gameState : int8_t
 	{
 		splashScreen = 1,
 		menu = 2,
@@ -13,7 +13,7 @@ namespace Teardown
 		quitting = 6
 	};
 
-	static const char* gameStatusStr[] = {
+	static const char* gameStateStr[] = {
 		"Splash Screen",
 		"Menu",
 		"UI Startup",
