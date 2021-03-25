@@ -6,6 +6,11 @@
 	To-do: Add more configurable values, so that users don't need to edit CPP files, and instead edit stuff here (i.e. keybinds)
 */
 
+
+/*
+	Console settings
+*/
+
 // Show console / disable this if for some reason you don't want it
 #define SHOW_CONSOLE true
 
@@ -14,3 +19,16 @@
 
 // Only print errors, ignore generic messages, addresses (this value overrides PRINT_ADDRESSES), and other stuff (Doesn't disable Lua's print cout)
 #define PRINT_ERRORS_ONLY false;
+
+/*
+	Lua settings
+*/
+
+// Open the debug lib
+#define ENABLE_DEBUG_LIB true
+
+// Open the OS lib [Not recommended, unless you're running scripts you really trust]
+#define ENABLE_OS_LIB false
+
+// Open the IO lib
+#define ENABLE_IO_LIB false;

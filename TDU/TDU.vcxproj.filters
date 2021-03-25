@@ -32,6 +32,9 @@
     <Filter Include="Source Files\Teardown\Functions">
       <UniqueIdentifier>{80a21283-89f7-4796-b3f0-213d6fc0f618}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CLuaFunctions">
+      <UniqueIdentifier>{cb65b361-3a51-444b-ab1c-e84997067fa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -178,6 +181,9 @@
     <ClCompile Include="LuaHooks.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
+    <ClCompile Include="CLuaFunctions.cpp">
+      <Filter>Source Files\CLuaFunctions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLExterns.h">
@@ -314,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="TeardownFunctions.h">
       <Filter>Source Files\Teardown\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CLuaFunctions.h">
+      <Filter>Source Files\CLuaFunctions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

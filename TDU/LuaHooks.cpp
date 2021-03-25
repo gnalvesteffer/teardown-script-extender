@@ -3,6 +3,7 @@
 #include "Signatures.h"
 #include "Memory.h"
 #include "Globals.h"
+#include "CLuaFunctions.h"
 
 #include "Lua.hpp"
 
@@ -17,6 +18,7 @@ tluaL_loadbuffer oluaL_loadbuffer;
 
 int hluaL_loadbuffer(lua_State* L, const char* buff, size_t size, const char* name)
 {
+	CLuaFunctions::RegisterCFunctions(L);
 	return oluaL_loadbuffer(L, buff, size, name);
 }
 

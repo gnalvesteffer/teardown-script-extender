@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "Logger.h"
 #include "TeardownFunctions.h"
+#include "CLuaFunctions.h"
 
 #include "Lua.hpp"
 
@@ -44,14 +45,11 @@ void Teardown::Lua::RunScript(std::string script)
 	Script* newScript = (Script*)scriptAlloc;
 
 	lua_State* L = newScript->scriptCore.SC_LuaState.pLSInfo->pLuaState;
-	luaopen_debug(L);
+	
 
 	Teardown::Functions::LuaFunctions::RegisterGameFunctions(&newScript->scriptCore);
-
-	/*
-		You can register your functions here, using lua_pushcfunction
-		Or do whatever you'd like with the state
-	*/
+	
+	CLuaFunctions::RegisterCFunctions(L);
 
 	if (luaL_loadbuffer(L, script.c_str(), script.length(), "TDU Lua") || lua_pcall(L, 0, LUA_MULTRET, 0))
 	{
