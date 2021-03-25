@@ -12,6 +12,16 @@
 
 #include <detours.h>
 
+bool hasFunction(lua_State* L, const char* funcName)
+{
+	lua_getglobal(L, "_G");
+	lua_getfield(L, -1, funcName);
+	bool isNil = lua_isnil(L, -1);
+
+	lua_pop(L, 2);
+	return !isNil;
+}
+
 const char* luaL_tolstring(lua_State* L, int idx, size_t* len)
 {
 	if (!luaL_callmeta(L, idx, "__tostring")) {
@@ -59,4 +69,21 @@ void Teardown::Lua::RunScript(std::string script)
 	}
 
 	lua_pop(L, 1);
+
+	newScript->scriptCore.hasTick = hasFunction(L, "tick");
+	newScript->scriptCore.hasInit = hasFunction(L, "init");
+	newScript->scriptCore.hasUpdate = hasFunction(L, "update");
+
+	/*
+		UI Functions are currently not available, as that'd require reversing the HUD class, initializing it, setting the pointer at ScriptCore + 0x1C0 then calling RegisterUIFunctions
+		once that's done, uncomment this
+		
+		newScript->scriptCore.hasDraw = hasFunction(L, "draw");
+	*/
+
+	if (newScript->scriptCore.hasTick || newScript->scriptCore.hasInit || newScript->scriptCore.hasUpdate)
+		newScript->scriptCore.hasCallbacks = true;
+
+	WriteLog(LogType::Generic, "Ran script (size: %d)", script.length());
+	WriteLog(LogType::Generic, "tick: %d | update: %d | init: %d | draw: %d", hasFunction(L, "tick"), hasFunction(L, "update"), hasFunction(L, "init"), hasFunction(L, "draw"));
 }
