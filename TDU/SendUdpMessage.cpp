@@ -1,7 +1,6 @@
-#include "LuaFunctions.h"
 #include <boost/asio.hpp>
 #include <string>
-
+#include "LuaFunctions.h"
 #include "LuaFunctionState.h"
 
 using namespace boost::asio;
@@ -9,7 +8,7 @@ using namespace boost::asio;
 bool send_udp_message(
     const std::string& destination_ip,
     const unsigned short port,
-    const std::string& message
+    const char* message
 )
 {
     io_service io_service;
@@ -19,7 +18,7 @@ bool send_udp_message(
     try
     {
         socket.open(ip::udp::v4());
-        socket.send_to(buffer(message), remote);
+        socket.send_to(buffer(message, strlen(message)), remote);
     }
     catch (const boost::system::system_error& exception)
     {

@@ -34,7 +34,7 @@ int LuaFunctions::cLuaFunctions::lRegisterUdpMessageHandler(lua_State* L)
                     char receive_buffer[2048];
                     boost::asio::ip::udp::endpoint remote_endpoint;
                     boost::system::error_code error;
-                    socket.receive_from(
+                    const auto receive_size = socket.receive_from(
                         boost::asio::buffer(receive_buffer),
                         remote_endpoint,
                         0,
@@ -43,13 +43,10 @@ int LuaFunctions::cLuaFunctions::lRegisterUdpMessageHandler(lua_State* L)
 
                     if (!error)
                     {
-                        for (auto message_handler_index = 0; message_handler_index < port_message_handlers[port].size(); ++message_handler_index)
+                        Globals::lua_function_state.port_messages[port].push_back(std::string(receive_buffer, receive_size));
+                        for (auto buffer_index = 0; buffer_index < sizeof(receive_buffer); ++buffer_index)
                         {
-                            Globals::lua_function_state.port_messages[port].push_back(std::string(receive_buffer));
-                            for (auto buffer_index = 0; buffer_index < sizeof(receive_buffer); ++buffer_index)
-                            {
-                                receive_buffer[buffer_index] = NULL;
-                            }
+                            receive_buffer[buffer_index] = NULL;
                         }
                     }
                 }
