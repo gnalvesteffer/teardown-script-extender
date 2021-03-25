@@ -31,10 +31,6 @@ Grab the opengl32 dll from releases, and paste it on your game's root directory 
 4. On VC++ Directories set your include/library directories for GLEW and MS Detours
 5. Everything should be ready to build.
 
-## Important
-* Make sure to change the output directory, and the debug working directory / command to the game's folder and exe
-* If you got any questions you can contact me at **Nahu#0331**
-
 ## Special thanks to
 * [SK83RJOSH](https://github.com/SK83RJOSH) | Seriously, [this](https://github.com/SK83RJOSH/Teardown) helped me so much, than you
 * [Xorberax](https://github.com/ss-gnalvesteffer)
