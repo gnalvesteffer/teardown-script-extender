@@ -3,7 +3,6 @@
 #include "Globals.h"
 #include "Memory.h"
 #include "Menu.h"
-#include "Features.h"
 
 #include <mutex>
 #include <detours.h>
@@ -36,8 +35,6 @@ void onGLInit()
 
 bool hwglSwapBuffers(_In_ HDC hDc)
 {
-	Features::Noclip::doNoclip();
-	
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();

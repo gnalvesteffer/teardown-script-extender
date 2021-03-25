@@ -154,22 +154,13 @@
     <ClCompile Include="CreateWindowHook.cpp">
       <Filter>Source Files\Hooks</Filter>
     </ClCompile>
-    <ClCompile Include="Noclip.cpp">
-      <Filter>Source Files\Features</Filter>
-    </ClCompile>
     <ClCompile Include="TLua.cpp">
       <Filter>Source Files\Teardown</Filter>
     </ClCompile>
     <ClCompile Include="Teardown.cpp">
       <Filter>Source Files\Teardown</Filter>
     </ClCompile>
-    <ClCompile Include="TextFunctions.cpp">
-      <Filter>Source Files\Features\LuaFunctions</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Source Files\Features\LuaFunctions</Filter>
-    </ClCompile>
-    <ClCompile Include="MovementFunctions.cpp">
       <Filter>Source Files\Features\LuaFunctions</Filter>
     </ClCompile>
     <ClCompile Include="PlayerHooks.cpp">
@@ -314,9 +305,6 @@
     </ClInclude>
     <ClInclude Include="Types.h">
       <Filter>Source Files\Teardown</Filter>
-    </ClInclude>
-    <ClInclude Include="Features.h">
-      <Filter>Source Files\Features</Filter>
     </ClInclude>
     <ClInclude Include="TLua.h">
       <Filter>Source Files\Teardown</Filter>

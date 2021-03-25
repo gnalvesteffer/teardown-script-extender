@@ -5,8 +5,6 @@ namespace LuaFunctions
 {
     namespace cLuaFunctions
     {
-        int lPrint(lua_State* L);
-        int lSetPlayerVel(lua_State* L);
         int lReadFile(lua_State* L);
         int lSendUdpMessage(lua_State* L);
         int lRegisterUdpMessageHandler(lua_State* L);

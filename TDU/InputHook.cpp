@@ -2,11 +2,9 @@
 #include "Logger.h"
 #include "Menu.h"
 #include "Globals.h"
-#include "Features.h"
-
 #include <detours.h>
-
 #include "imgui.h"
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 WNDPROC	oWndProc;
 
@@ -28,12 +26,6 @@ LRESULT	APIENTRY hWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (wParam == VK_INSERT)
 		{
 			Menu::drawMenu = !Menu::drawMenu;
-			return true;
-		}
-
-		if (wParam == 0x4E && !Menu::drawMenu)
-		{
-			Features::Noclip::toggleNoclip();
 			return true;
 		}
 	}

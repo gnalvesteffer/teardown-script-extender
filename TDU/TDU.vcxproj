@@ -151,8 +151,6 @@
     <ClCompile Include="Lua\print.c" />
     <ClCompile Include="GameHooks.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MovementFunctions.cpp" />
-    <ClCompile Include="Noclip.cpp" />
     <ClCompile Include="PlayerHooks.cpp" />
     <ClCompile Include="ReadFile.cpp" />
     <ClCompile Include="RegisterUdpMessageHandler.cpp" />
@@ -160,7 +158,6 @@
     <ClCompile Include="SendUdpMessage.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Teardown.cpp" />
-    <ClCompile Include="TextFunctions.cpp" />
     <ClCompile Include="TLua.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -170,7 +167,6 @@
     <ClInclude Include="imguiCPP.h" />
     <ClInclude Include="LuaFunctions.h" />
     <ClInclude Include="Entities.h" />
-    <ClInclude Include="Features.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GLExterns.h" />
     <ClInclude Include="Globals.h" />
