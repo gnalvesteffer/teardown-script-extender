@@ -264,9 +264,6 @@
     <ClInclude Include="Loader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Hooks.h">
       <Filter>Source Files\Hooks</Filter>
     </ClInclude>
@@ -323,6 +320,9 @@
     </ClInclude>
     <ClInclude Include="CLuaFunctions.h">
       <Filter>Source Files\CLuaFunctions</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
