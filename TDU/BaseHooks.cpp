@@ -66,6 +66,10 @@ void hMain(Game* pGame, void* pCamSystem)
 	Teardown::pGame = pGame;
 	Main(pGame, pCamSystem);
 
+	#ifdef _DEBUG
+		Teardown::pGame->StateTransition = Teardown::gameState::menu;
+	#endif
+
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourDetach(&(PVOID&)Main, hMain);
