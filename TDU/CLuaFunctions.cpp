@@ -14,4 +14,12 @@ void CLuaFunctions::RegisterCFunctions(lua_State* L)
 	#if ENABLE_IO_LIB
 		luaopen_io(L);
 	#endif
+
+	lua_getglobal(L, "_G");
+
+	/*
+		Register your functions here
+	*/
+
+	lua_pop(L, 1);
 }
