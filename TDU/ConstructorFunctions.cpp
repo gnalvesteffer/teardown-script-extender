@@ -3,11 +3,25 @@
 #include "Memory.h"
 #include "Globals.h"
 #include "Logger.h"
+#include "Teardown.h"
 
 #include "Entities.h"
 #include "Script.h"
+#include "Types.h"
 
 typedef Entity* (*tEntityCCtor)				(void* memAlloc, Entity* Parent);
+
+tEntityCCtor BodyCCtor;
+tEntityCCtor ShapeCCtor;
+tEntityCCtor LightCCtor;
+tEntityCCtor LocationCCtor;
+tEntityCCtor WaterCCtor;
+tEntityCCtor EnemyCCtor;
+tEntityCCtor JointCCtor;
+tEntityCCtor VehicleCCtor;
+tEntityCCtor WheelCCtor;
+tEntityCCtor ScreenCCtor;
+tEntityCCtor TriggerCCtor;
 tEntityCCtor ScriptCCtor;
 
 Script* Teardown::Functions::Constructors::newScript(void* memAlloc, Entity* Parent)
@@ -17,8 +31,16 @@ Script* Teardown::Functions::Constructors::newScript(void* memAlloc, Entity* Par
 
 void Teardown::Functions::Constructors::GetAddresses()
 {
-	DWORD64 dwScriptCCtor = Memory::FindPattern(Signatures::ClassConstructors::ScriptCCtor.pattern, Signatures::ClassConstructors::ScriptCCtor.mask, Globals::HModule);
+	DWORD64 dwBodyCCtor = Memory::FindPattern(Signatures::ClassConstructors::Body.pattern, Signatures::ClassConstructors::Body.mask, Globals::HModule);
+	BodyCCtor = (tEntityCCtor)Memory::readPtr(dwBodyCCtor, 1);
+	
+	DWORD64 dwShapeCCtor = Memory::FindPattern(Signatures::ClassConstructors::Shape.pattern, Signatures::ClassConstructors::Shape.mask, Globals::HModule);
+	ShapeCCtor = (tEntityCCtor)Memory::readPtr(dwShapeCCtor, 1);
+
+	DWORD64 dwScriptCCtor = Memory::FindPattern(Signatures::ClassConstructors::Script.pattern, Signatures::ClassConstructors::Script.mask, Globals::HModule);
 	ScriptCCtor = (tEntityCCtor)Memory::readPtr(dwScriptCCtor, 1);
 
+	WriteLog(LogType::Address, "Body::Body: 0x%p", BodyCCtor);
+	WriteLog(LogType::Address, "Shape::Shape: 0x%p", ShapeCCtor);
 	WriteLog(LogType::Address, "Script::Script: 0x%p", ScriptCCtor);
 }
