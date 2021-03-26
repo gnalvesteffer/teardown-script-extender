@@ -71,7 +71,7 @@ public:
 	Tool Gun; //0x0320
 	Tool Bomb; //0x0358
 	Tool Rocket; //0x0390
-	small_string equippedToolName; //0x03C8
+	Teardown::small_string equippedToolName; //0x03C8
 	class Body* pToolBody; //0x03D8
 	char pad_03E0[28]; //0x03E0
 	glm::vec3 toolPos; //0x03FC

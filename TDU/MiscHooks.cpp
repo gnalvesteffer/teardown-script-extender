@@ -8,7 +8,7 @@
 
 #include <detours.h>
 
-void hLog(small_string* logMessage)
+void hLog(Teardown::small_string* logMessage)
 {
 #if !PRINT_ERRORS_ONLY
 	std::cout << "\033[97;42;1m[Game log]\033[0m " << logMessage->c_str();

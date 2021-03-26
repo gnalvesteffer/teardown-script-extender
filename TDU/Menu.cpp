@@ -81,7 +81,7 @@ void Cheats::Menu::Draw()
 				const bool is_selected = (currentRTIndex == n);
 				if (ImGui::Selectable(rendertargets[n], is_selected))
 				{
-					Teardown::pGame->pShaderSystem->renderBuffer = small_string(rendertargets[n]);
+					Teardown::pGame->pShaderSystem->renderBuffer = Teardown::small_string(rendertargets[n]);
 					currentRTIndex = n;
 				}
 

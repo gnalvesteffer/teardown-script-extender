@@ -16,7 +16,7 @@ public:
 	int32_t N00001664; //0x7EC0
 	int32_t N000036FE; //0x7EC4
 	char pad_7EC8[1976]; //0x7EC8
-	small_string renderBuffer; //0x8680
+	Teardown::small_string renderBuffer; //0x8680
 	bool drawBounds; //0x8698
 	bool drawBodies; //0x8699
 	bool drawShapes; //0x869A
