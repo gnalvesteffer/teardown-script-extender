@@ -108,7 +108,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp" />
-    <ClCompile Include="GetMessagesForPort.cpp" />
     <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="CreateWindowHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -153,12 +152,11 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerHooks.cpp" />
     <ClCompile Include="ReadFile.cpp" />
-    <ClCompile Include="RegisterUdpMessageHandler.cpp" />
     <ClCompile Include="RenderHooks.cpp" />
-    <ClCompile Include="SendUdpMessage.cpp" />
     <ClCompile Include="Shaders.cpp" />
     <ClCompile Include="Teardown.cpp" />
     <ClCompile Include="TLua.cpp" />
+    <ClCompile Include="UdpCommunication.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -173,7 +171,6 @@
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="LuaFunctionState.h" />
     <ClInclude Include="Shaders.h" />
     <ClInclude Include="TLua.h" />
     <ClInclude Include="Lua.hpp" />

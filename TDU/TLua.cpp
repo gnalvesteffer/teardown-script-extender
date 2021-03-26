@@ -31,8 +31,8 @@ void register_lua_functions(lua_State* L)
     lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lSendUdpMessage);
     lua_setfield(L, -2, "SendUdpMessage");
 
-    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lRegisterUdpMessageHandler);
-    lua_setfield(L, -2, "RegisterUdpMessageHandler");
+    lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lInitializeUdpPortListener);
+    lua_setfield(L, -2, "InitializeUdpPortListener");
 
     lua_pushcfunction(L, LuaFunctions::cLuaFunctions::lGetMessagesForPort);
     lua_setfield(L, -2, "GetMessagesForPort");

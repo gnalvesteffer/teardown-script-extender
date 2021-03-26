@@ -7,7 +7,7 @@ namespace LuaFunctions
     {
         int lReadFile(lua_State* L);
         int lSendUdpMessage(lua_State* L);
-        int lRegisterUdpMessageHandler(lua_State* L);
+        int lInitializeUdpPortListener(lua_State* L);
         int lGetMessagesForPort(lua_State* L);
     }
 
