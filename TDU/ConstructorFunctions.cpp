@@ -29,6 +29,16 @@ Script* Teardown::Functions::Constructors::newScript(void* memAlloc, Entity* Par
 	return (Script*)ScriptCCtor(memAlloc, Parent);
 }
 
+Body* Teardown::Functions::Constructors::newBody(void* memAlloc, Entity* Parent)
+{
+	return (Body*)BodyCCtor(memAlloc, Parent);
+}
+
+Shape* Teardown::Functions::Constructors::newShape(void* memAlloc, Entity* Parent)
+{
+	return (Shape*)ShapeCCtor(memAlloc, Parent);
+}
+
 void Teardown::Functions::Constructors::GetAddresses()
 {
 	DWORD64 dwBodyCCtor = Memory::FindPattern(Signatures::ClassConstructors::Body.pattern, Signatures::ClassConstructors::Body.mask, Globals::HModule);

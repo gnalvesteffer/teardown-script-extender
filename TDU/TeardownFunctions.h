@@ -16,6 +16,8 @@ namespace Teardown
 		{
 			void GetAddresses();
 			Script* newScript(void* memAlloc, Entity* Parent);
+			Body* newBody(void* memAlloc, Entity* Parent);
+			Shape* newShape(void* memAlloc, Entity* Parent);
 		}
 
 		namespace LuaFunctions
