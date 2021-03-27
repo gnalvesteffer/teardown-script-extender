@@ -11,24 +11,6 @@
 #include <cstdlib>
 #include <cstdint>
 
-#define MemoryAlloc &Teardown::Functions::Mem::Alloc;
-#define MemoryFree &Teardown::Functions::Mem::Free;
-
-template<class T>
-T* MemoryNew()
-{
-	return (T*)&MemoryAlloc(sizeof(T));
-}
-
-template<class T>
-T* MemoryNew(size_t size)
-{
-	T* result;
-	result = (T*)MemoryAlloc(sizeof(T) * size);
-	return result;
-	//return static_cast<T*>(MemoryAlloc(sizeof(T) * size));
-}
-
 /*
  * Helper class for interacting with Teardown strings.
  *
@@ -53,7 +35,7 @@ namespace Teardown
 
 			if (len > 15)
 			{
-				dst = MemoryNew<char>(len + 1);
+				dst = (char*)Teardown::Functions::Mem::Alloc(sizeof(char) * (len + 1));
 
 				if (dst == nullptr)
 				{
@@ -62,7 +44,7 @@ namespace Teardown
 
 				if (m_StackBuffer[15])
 				{
-					MemoryFree(m_HeapBuffer);
+					Teardown::Functions::Mem::Free(m_HeapBuffer);
 				}
 				else
 				{
@@ -80,7 +62,7 @@ namespace Teardown
 		~small_string() {
 			if (m_StackBuffer[15])
 			{
-				MemoryFree(m_HeapBuffer);
+				Teardown::Functions::Mem::Free(m_HeapBuffer);
 			}
 		}
 
