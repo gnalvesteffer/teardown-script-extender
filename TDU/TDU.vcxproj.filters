@@ -184,6 +184,12 @@
     <ClCompile Include="CLuaFunctions.cpp">
       <Filter>Source Files\CLuaFunctions</Filter>
     </ClCompile>
+    <ClCompile Include="LuaEntityFunctions.cpp">
+      <Filter>Source Files\CLuaFunctions</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityFunctions.cpp">
+      <Filter>Source Files\Teardown\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLExterns.h">
