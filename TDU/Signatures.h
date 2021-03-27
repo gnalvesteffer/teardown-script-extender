@@ -49,6 +49,18 @@ namespace Signatures
 		inline Signature InteractionHandler("\xE8\x00\x00\x00\x00\x41\x0F\x28\xD4\x48\x8B\xD6\x48\x8B\xCF\xE8\x00\x00\x00\x00\x41\x0F\x28\xD4", "x????xxxxxxxxxxx????xxxx"); // direct reference
 	}
 
+	namespace EntityFunctions
+	{
+		// Found by xref-ing "vox/bomb.vox", it's 2 calls after that
+		inline Signature LoadVox("\x4C\x8B\xDC\x57\x48\x81\xEC\x00\x00\x00\x00\x48\xC7\x44\x24\x00\x00\x00\x00\x00\x49\x89\x5B\x08", "xxxxxxx????xxxx?????xxxx");
+
+		// Found by xref-ing "game.tool.pipebomb.damage" and going 3 calls before that
+		inline Signature GenVoxTexture("\xE8\x00\x00\x00\x00\xFF\xC3\x48\x8D\x76\x08\x3B\x1F", "x????xxxxxxxx"); // direct reference
+
+		// Right below GenVoxTexture call
+		inline Signature InitializeVox("\xE8\x00\x00\x00\x00\x41\xFF\xC7\x48\x83\xC7\x1C", "x????xxxxxxx"); // direct reference
+	}
+
 	// There's a couple ways to find these, easiest way to find them is to look in the function that parses the level's xml and spawns every entity in it
 	namespace ClassConstructors {
 
