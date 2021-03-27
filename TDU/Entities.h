@@ -19,7 +19,7 @@
 //	//	//	//	//	//	Other stuff	//	//	//	//	//	/
 /////////////////////////////////////////////////////////
 //	Entity		|	0x28	|	40 bytes
-//	Vox			|	UNK		|	unknown size
+//	Vox			|	0x60	|	96 bytes
 //	Convex		|	0x2B8	|	696 bytes
 //	HUD			|	0xA90	|	2704 bytes
 
@@ -72,6 +72,20 @@ public:
 	virtual void	Function3();
 }; // Size: 0x28
 
+class Vox
+{
+public:
+	int32_t sizeX; //0x0000
+	int32_t sizeY; //0x0004
+	int32_t sizeZ; //0x0008
+	char pad_000C[4]; //0x000C
+	void* MaterialBuffer; //0x0010
+	void* PhysicsBuffer; //0x0018
+	float Scale; //0x0020
+	char pad_0024[56]; //0x0024
+	int32_t VoxelCount; //0x005C
+}; //Size: 0x0060
+
 class Shape : public Entity
 {
 public:
@@ -82,7 +96,7 @@ public:
 	void* pDormantSomething; //0x0060
 	void* pActiveSomething; //0x0068
 	char pad_0070[32]; //0x0070
-	class Vox* pVox; //0x0090
+	Vox* pVox; //0x0090
 	char pad_0098[8]; //0x0098
 	void* pJoints; //0x00A0 
 	float Intergrity; //0x00A8
