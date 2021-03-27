@@ -40,11 +40,11 @@ namespace Logger
 
 		switch (type)
 		{
-#if !PRINT_ERRORS_ONLY
+#ifndef PRINT_ERRORS_ONLY
 		case LogType::Generic:
 			std::cout << "\033[97;44;1m[" << funcName << " @ " << fileName << ext << "]\033[0m " << buff << std::endl;
 			break;
-	#if PRINT_ADDRESSES
+	#ifdef PRINT_ADDRESSES
 		case LogType::Address:
 			std::cout << "\033[30;103;1m[" << "ADDRESS" << " @ " << fileName << ext << "]\033[0m " << buff << std::endl;
 			break;

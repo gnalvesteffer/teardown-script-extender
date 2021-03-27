@@ -12,23 +12,23 @@
 */
 
 // Show console / disable this if for some reason you don't want it
-#define SHOW_CONSOLE true
+#define SHOW_CONSOLE
 
 // Only useful when the game updates, so you can see which functions the signatures no longer work for
-#define PRINT_ADDRESSES true
+#define PRINT_ADDRESSES
 
 // Only print errors, ignore generic messages, addresses (this value overrides PRINT_ADDRESSES), and other stuff (Doesn't disable Lua's print cout)
-#define PRINT_ERRORS_ONLY false;
+//#define PRINT_ERRORS_ONLY
 
 /*
 	Lua settings
 */
 
 // Open the debug lib
-#define ENABLE_DEBUG_LIB true
+#define ENABLE_DEBUG_LIB
 
-// Open the OS lib [Not recommended, unless you're running scripts you really trust]
-#define ENABLE_OS_LIB false
+// Open the OS lib (Not recommended, unless you're running scripts you really trust)
+//#define ENABLE_OS_LIB
 
 // Open the IO lib
-#define ENABLE_IO_LIB false;
+//#define ENABLE_IO_LIB

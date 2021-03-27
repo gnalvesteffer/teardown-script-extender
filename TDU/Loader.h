@@ -11,7 +11,7 @@ namespace Loader
 	inline void Init()
 	{
 	
-	#if SHOW_CONSOLE
+	#ifdef SHOW_CONSOLE
 		// allocate console for logging
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);
