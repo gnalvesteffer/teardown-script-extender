@@ -24,18 +24,21 @@ tEntityCCtor ScreenCCtor;
 tEntityCCtor TriggerCCtor;
 tEntityCCtor ScriptCCtor;
 
-Script* Teardown::Functions::Constructors::newScript(void* memAlloc, Entity* Parent)
+Script* Teardown::Functions::Constructors::newScript(Entity* Parent)
 {
+	void* memAlloc = Teardown::Functions::Mem::Alloc(sizeof(Script));
 	return (Script*)ScriptCCtor(memAlloc, Parent);
 }
 
-Body* Teardown::Functions::Constructors::newBody(void* memAlloc, Entity* Parent)
+Body* Teardown::Functions::Constructors::newBody(Entity* Parent)
 {
+	void* memAlloc = Teardown::Functions::Mem::Alloc(sizeof(Body));
 	return (Body*)BodyCCtor(memAlloc, Parent);
 }
 
-Shape* Teardown::Functions::Constructors::newShape(void* memAlloc, Entity* Parent)
+Shape* Teardown::Functions::Constructors::newShape(Entity* Parent)
 {
+	void* memAlloc = Teardown::Functions::Mem::Alloc(sizeof(Shape));
 	return (Shape*)ShapeCCtor(memAlloc, Parent);
 }
 

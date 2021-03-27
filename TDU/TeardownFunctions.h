@@ -1,5 +1,6 @@
 #pragma once
 #include "Script.h"
+#include "Entities.h"
 
 namespace Teardown
 {
@@ -15,15 +16,23 @@ namespace Teardown
 		namespace Constructors
 		{
 			void GetAddresses();
-			Script* newScript(void* memAlloc, Entity* Parent);
-			Body* newBody(void* memAlloc, Entity* Parent);
-			Shape* newShape(void* memAlloc, Entity* Parent);
+			Script* newScript(Entity* Parent);
+			Body* newBody(Entity* Parent);
+			Shape* newShape(Entity* Parent);
 		}
 
 		namespace LuaFunctions
 		{
 			void GetAddresses();
 			void RegisterGameFunctions(ScriptCore* pScriptCore);
+		}
+
+		namespace EntityFunctions
+		{
+			void GetAddresses();
+			Entity* GetEntityById(uint16_t entityId);
+
+			Vox* LoadVox(const char* path, float Scale);
 		}
 
 		void GetAddresses();

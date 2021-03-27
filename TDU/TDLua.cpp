@@ -49,10 +49,7 @@ const char* luaL_tolstring(lua_State* L, int idx, size_t* len)
 
 void Teardown::Lua::RunScript(std::string script)
 {
-	void* scriptAlloc = Teardown::Functions::Mem::Alloc(sizeof(Script));
-	Teardown::Functions::Constructors::newScript(scriptAlloc, 0);
-
-	Script* newScript = (Script*)scriptAlloc;
+	Script* newScript = Teardown::Functions::Constructors::newScript(0);
 
 	lua_State* L = newScript->scriptCore.SC_LuaState.pLSInfo->pLuaState;
 	

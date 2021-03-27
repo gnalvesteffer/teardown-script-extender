@@ -7,4 +7,5 @@ void Teardown::Functions::GetAddresses()
 	Teardown::Functions::Mem::GetAddresses();
 	Teardown::Functions::Constructors::GetAddresses();
 	Teardown::Functions::LuaFunctions::GetAddresses();
+	Teardown::Functions::EntityFunctions::GetAddresses();
 }
