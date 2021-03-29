@@ -13,6 +13,7 @@ namespace CLuaFunctions
 		int CreateShape(lua_State* L);
 		int CreateBody(lua_State* L);
 		int LoadVox(lua_State* L);
+		int InitializeBody(lua_State* L);
 	}
 
 	void RegisterCFunctions(lua_State* L);

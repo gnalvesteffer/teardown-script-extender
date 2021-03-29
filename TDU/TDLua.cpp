@@ -81,6 +81,5 @@ void Teardown::Lua::RunScript(std::string script)
 	if (newScript->scriptCore.hasTick || newScript->scriptCore.hasInit || newScript->scriptCore.hasUpdate)
 		newScript->scriptCore.hasCallbacks = true;
 
-	WriteLog(LogType::Generic, "Ran script (size: %d)", script.length());
-	WriteLog(LogType::Generic, "tick: %d | update: %d | init: %d | draw: %d", hasFunction(L, "tick"), hasFunction(L, "update"), hasFunction(L, "init"), hasFunction(L, "draw"));
+	WriteLog(LogType::Generic, "Ran script (size: %d) | tick: %d | update: %d | init: %d | draw: %d", script.length(), hasFunction(L, "tick"), hasFunction(L, "update"), hasFunction(L, "init"), hasFunction(L, "draw"));
 }

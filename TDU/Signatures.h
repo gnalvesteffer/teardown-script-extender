@@ -16,6 +16,8 @@ public:
 	All signatures are stored here, if you implement any new functions / hooks / signatures, i suggest you keep the signatures here, so that it's easier to update whenever Teardown updates
 	"direct reference" means the sig does not point to the function itself, but to a pointer of the function (a place where it's being called)
 	In order to get that address, you'll have to call Memory::readPtr(sigAddress, 1), or just dereference it, whichever you prefer
+
+	The ones that are uncommented are because it'd make a really long comment or something, if you still wanna find them, ask
 */
 
 namespace Signatures
@@ -34,7 +36,6 @@ namespace Signatures
 		// You can find it by searching any functions that are not from the UI lib (i.e. SetTag, or IsBodyBroken)
 		inline Signature RegisterGameFunctions("\x40\x55\x48\x8D\xAC\x24\x00\x00\x00\x00\x48\x81\xEC\x00\x00\x00\x00\x48\xC7\x85\x00\x00\x00\x00\x00\x00\x00\x00", "xxxxxx????xxx????xxx????????");
 
-		// There's a bunch of ways to find this function, but there's no straight forward way, if you need to find this function dm me
 		inline Signature luaL_loadbuffer("\xE8\x00\x00\x00\x00\x85\xC0\x75\x07\xB8\x00\x00\x00\x00\xEB\x57", "x????xxxxx????xx"); // direct reference
 	}
 
@@ -51,6 +52,9 @@ namespace Signatures
 
 	namespace EntityFunctions
 	{
+		/*
+			Vox functions
+		*/
 		// Found by xref-ing "vox/bomb.vox", it's 2 calls after that
 		inline Signature LoadVox("\x4C\x8B\xDC\x57\x48\x81\xEC\x00\x00\x00\x00\x48\xC7\x44\x24\x00\x00\x00\x00\x00\x49\x89\x5B\x08", "xxxxxxx????xxxx?????xxxx");
 
@@ -59,6 +63,14 @@ namespace Signatures
 
 		// Right below GenVoxTexture call
 		inline Signature InitializeVox("\xE8\x00\x00\x00\x00\x41\xFF\xC7\x48\x83\xC7\x1C", "x????xxxxxxx"); // direct reference
+
+		/*
+			Body functions
+		*/
+
+		inline Signature SetBodyDynamic("\x88\x91\x00\x00\x00\x00\x4C\x8B\xC1", "xx????xxx");
+
+		inline Signature InitializeBody("\xE8\x00\x00\x00\x00\x41\x80\xBF\x00\x00\x00\x00\x00", "x????xxx?????"); // direct reference
 	}
 
 	// There's a couple ways to find these, easiest way to find them is to look in the function that parses the level's xml and spawns every entity in it

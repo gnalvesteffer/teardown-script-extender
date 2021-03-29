@@ -8,25 +8,29 @@
 #include "Signatures.h"
 #include "Logger.h"
 
-
-typedef Vox* (*tLoadVox)		(Teardown::small_string* path, void* a2, float Scale);
+typedef Vox* (*tLoadVox)		(Teardown::small_string* path, char a2[8], float Scale);
 tLoadVox tdLoadVox;
+
+typedef void (*tInitializeBody)	(Body* pBody);
+typedef void (*tSetBodyDynamic)	(Body* pBody, bool Dynamic);
+
+tInitializeBody tdInitializeBody;
+tSetBodyDynamic tdSetBodyDynamic;
 
 typedef Vox* (*tVoxFunction)	(Vox* pVox);
 tVoxFunction GenVoxTexture;
 tVoxFunction InitializeVox;
 
-
 Vox* Teardown::Functions::EntityFunctions::LoadVox(const char* path, float Scale)
 {
 	Teardown::small_string voxPath(path);
 
-	// No idea with this value does, doesn't seem to alter anything either
-	char unk[16] = { 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x80, 0xB0, 0x01, 0x00, 0x00 };
+	char unk[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	Vox* newVox = tdLoadVox(&voxPath, &unk, Scale);
+	Vox* newVox = tdLoadVox(&voxPath, unk, Scale);
 	GenVoxTexture(newVox);
 	InitializeVox(newVox);
+
 	return newVox;
 }
 
@@ -41,6 +45,16 @@ Entity* Teardown::Functions::EntityFunctions::GetEntityById(uint16_t entityId)
 	return *(Entity**)dwEntityPointer;
 }
 
+void Teardown::Functions::EntityFunctions::InitializeBody(Body* pBody)
+{
+	tdInitializeBody(pBody);
+}
+
+void Teardown::Functions::EntityFunctions::SetBodyDynamic(Body* pBody, bool Dynamic)
+{
+	tdSetBodyDynamic(pBody, Dynamic);
+}
+
 void Teardown::Functions::EntityFunctions::GetAddresses()
 {
 	tdLoadVox = (tLoadVox)Memory::FindPattern(Signatures::EntityFunctions::LoadVox.pattern, Signatures::EntityFunctions::LoadVox.mask, Globals::HModule);
@@ -51,5 +65,15 @@ void Teardown::Functions::EntityFunctions::GetAddresses()
 	DWORD64 dwInitializeVox = Memory::FindPattern(Signatures::EntityFunctions::InitializeVox.pattern, Signatures::EntityFunctions::InitializeVox.mask, Globals::HModule);
 	InitializeVox = (tVoxFunction)Memory::readPtr(dwInitializeVox, 1);
 
+	tdSetBodyDynamic = (tSetBodyDynamic)Memory::FindPattern(Signatures::EntityFunctions::SetBodyDynamic.pattern, Signatures::EntityFunctions::SetBodyDynamic.mask, Globals::HModule);
+
+	DWORD64 dwInitializeBody = Memory::FindPattern(Signatures::EntityFunctions::InitializeBody.pattern, Signatures::EntityFunctions::InitializeBody.mask, Globals::HModule);
+	tdInitializeBody = (tInitializeBody)Memory::readPtr(dwInitializeBody, 1);
+
 	WriteLog(LogType::Address, "LoadVox: 0x%p", tdLoadVox);
+	WriteLog(LogType::Address, "InitializeVox: 0x%p", GenVoxTexture);
+	WriteLog(LogType::Address, "GenVoxTexture: 0x%p", InitializeVox);
+
+	WriteLog(LogType::Address, "SetBodyDnamic", tdSetBodyDynamic);
+	WriteLog(LogType::Address, "InitializeBody", tdInitializeBody);
 }

@@ -6,13 +6,21 @@ int CLuaFunctions::EntityFunctions::CreateBody(lua_State* L)
 {
 	int argCount = lua_gettop(L);
 	DWORD64 parent = 0;
+
+	bool isDynamic = false;
+
 	if (argCount >= 1)
 	{
 		int parentId = luaL_checknumber(L, 1);
-		parent = (DWORD64)Teardown::Functions::EntityFunctions::GetEntityById(parentId);
+		if (parentId > 0)
+			parent = (DWORD64)Teardown::Functions::EntityFunctions::GetEntityById(parentId);
+	
+		if (argCount >= 2)
+			isDynamic = lua_toboolean(L, 2);
 	}
 
 	Body* newBody = Teardown::Functions::Constructors::newBody((Entity*)parent);
+	newBody->Dynamic = isDynamic;
 
 	lua_pushnumber(L, newBody->Id);
 	return 1;
@@ -36,6 +44,8 @@ int CLuaFunctions::EntityFunctions::CreateShape(lua_State* L)
 
 int CLuaFunctions::EntityFunctions::LoadVox(lua_State* L)
 {
+	int argCount = lua_gettop(L);
+
 	int shapeId = luaL_checknumber(L, 1);
 	const char* voxPath = luaL_checkstring(L, 2);
 
@@ -44,10 +54,33 @@ int CLuaFunctions::EntityFunctions::LoadVox(lua_State* L)
 	if (!pShape || pShape->Type != entityType::Shape)
 		return 0;
 
-	Vox* newVox = Teardown::Functions::EntityFunctions::LoadVox(voxPath, 1.f);
+	float scale = 1.f;
+	if (argCount >= 3)
+		scale = luaL_checknumber(L, 3);
+
+	Vox* newVox = Teardown::Functions::EntityFunctions::LoadVox(voxPath, scale);
 
 	if (newVox)
 		pShape->pVox = newVox;
 
 	return 0;
+}
+
+int CLuaFunctions::EntityFunctions::InitializeBody(lua_State* L)
+{
+	int argCount = lua_gettop(L);
+
+	int shapeId = luaL_checknumber(L, 1);
+
+	Body* pBody= (Body*)Teardown::Functions::EntityFunctions::GetEntityById(shapeId);
+
+	if (!pBody || pBody->Type != entityType::Body)
+		return 0;
+
+	bool Dynamic = false;
+	if (argCount >= 2)
+		Dynamic = lua_toboolean(L, 2);
+
+	Teardown::Functions::EntityFunctions::SetBodyDynamic(pBody, Dynamic);
+	Teardown::Functions::EntityFunctions::InitializeBody(pBody);
 }
