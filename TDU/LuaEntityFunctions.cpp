@@ -15,7 +15,7 @@ int CLuaFunctions::EntityFunctions::CreateBody(lua_State* L)
 		if (parentId > 0)
 			parent = (DWORD64)Teardown::Functions::EntityFunctions::GetEntityById(parentId);
 	
-		if (argCount >= 2)
+		if (argCount >= 3)
 			isDynamic = lua_toboolean(L, 2);
 	}
 
@@ -47,7 +47,9 @@ int CLuaFunctions::EntityFunctions::LoadVox(lua_State* L)
 	int argCount = lua_gettop(L);
 
 	int shapeId = luaL_checknumber(L, 1);
+
 	const char* voxPath = luaL_checkstring(L, 2);
+	const char* objName = nullptr;
 
 	Shape* pShape = (Shape*)Teardown::Functions::EntityFunctions::GetEntityById(shapeId);
 
@@ -55,13 +57,22 @@ int CLuaFunctions::EntityFunctions::LoadVox(lua_State* L)
 		return 0;
 
 	float scale = 1.f;
+
 	if (argCount >= 3)
 		scale = luaL_checknumber(L, 3);
 
-	Vox* newVox = Teardown::Functions::EntityFunctions::LoadVox(voxPath, scale);
+	if (argCount >= 4)
+		objName = luaL_checkstring(L, 4);
+
+	Vox* newVox = Teardown::Functions::EntityFunctions::LoadVox(voxPath, objName, scale);
 
 	if (newVox)
 		pShape->pVox = newVox;
+	else
+	{
+		lua_pushliteral(L, "Unable to load vox file");
+		lua_error(L);
+	}
 
 	return 0;
 }

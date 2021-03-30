@@ -32,7 +32,7 @@ namespace Teardown
 			void GetAddresses();
 			Entity* GetEntityById(uint16_t entityId);
 
-			Vox* LoadVox(const char* path, float Scale);
+			Vox* LoadVox(const char* path, const char* object, float Scale);
 
 			void InitializeBody(Body* pBody);
 			void SetBodyDynamic(Body* pBody, bool Dynamic);

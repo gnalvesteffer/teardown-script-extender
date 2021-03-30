@@ -8,7 +8,7 @@
 #include "Signatures.h"
 #include "Logger.h"
 
-typedef Vox* (*tLoadVox)		(Teardown::small_string* path, char a2[8], float Scale);
+typedef Vox* (*tLoadVox)		(Teardown::small_string* path, Teardown::small_string* object, float Scale);
 tLoadVox tdLoadVox;
 
 typedef void (*tInitializeBody)	(Body* pBody);
@@ -21,13 +21,18 @@ typedef Vox* (*tVoxFunction)	(Vox* pVox);
 tVoxFunction GenVoxTexture;
 tVoxFunction InitializeVox;
 
-Vox* Teardown::Functions::EntityFunctions::LoadVox(const char* path, float Scale)
+Vox* Teardown::Functions::EntityFunctions::LoadVox(const char* path, const char* object, float Scale)
 {
 	Teardown::small_string voxPath(path);
+	Teardown::small_string voxObject(object);
 
-	char unk[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	//char unk[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	Vox* newVox = tdLoadVox(&voxPath, unk, Scale);
+	Vox* newVox = tdLoadVox(&voxPath, &voxObject, Scale);
+
+	if (!newVox)
+		return 0;
+
 	GenVoxTexture(newVox);
 	InitializeVox(newVox);
 
