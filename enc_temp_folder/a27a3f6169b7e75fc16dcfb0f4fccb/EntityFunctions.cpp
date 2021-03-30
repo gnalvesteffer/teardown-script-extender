@@ -26,6 +26,8 @@ Vox* Teardown::Functions::EntityFunctions::LoadVox(const char* path, const char*
 	Teardown::small_string voxPath(path);
 	Teardown::small_string voxObject(object);
 
+	//char unk[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
 	Vox* newVox = tdLoadVox(&voxPath, &voxObject, Scale);
 
 	if (!newVox)
