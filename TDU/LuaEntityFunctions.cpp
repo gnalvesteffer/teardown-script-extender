@@ -49,7 +49,7 @@ int CLuaFunctions::EntityFunctions::LoadVox(lua_State* L)
 	int shapeId = luaL_checknumber(L, 1);
 
 	const char* voxPath = luaL_checkstring(L, 2);
-	const char* objName = nullptr;
+	const char* objName = NULL;
 
 	Shape* pShape = (Shape*)Teardown::Functions::EntityFunctions::GetEntityById(shapeId);
 
