@@ -94,4 +94,6 @@ int CLuaFunctions::EntityFunctions::InitializeBody(lua_State* L)
 
 	Teardown::Functions::EntityFunctions::SetBodyDynamic(pBody, Dynamic);
 	Teardown::Functions::EntityFunctions::InitializeBody(pBody);
+	
+	return 0;
 }
