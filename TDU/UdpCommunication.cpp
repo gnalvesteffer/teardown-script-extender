@@ -4,7 +4,7 @@
 #include "LuaFunctions.h"
 
 std::unordered_map<unsigned short, std::vector<std::string>> port_messages;
-std::unordered_map<unsigned short, std::vector<int>> port_message_handlers;
+std::unordered_map<unsigned short, bool> port_message_clear_flags;
 
 /// <summary>
 /// Usage:
@@ -16,20 +16,25 @@ std::unordered_map<unsigned short, std::vector<int>> port_message_handlers;
 int LuaFunctions::cLuaFunctions::lInitializeUdpPortListener(lua_State* L)
 {
     const auto port = static_cast<unsigned short>(lua_tointeger(L, 1));
-    const auto message_handler_registry_index = luaL_ref(L, LUA_REGISTRYINDEX);
-    const auto is_socket_open_for_port = port_message_handlers.find(port) != port_message_handlers.end();
-    port_message_handlers[port].push_back(message_handler_registry_index);
+    const auto is_socket_open_for_port = port_messages.find(port) != port_messages.end();
     if (!is_socket_open_for_port)
     {
-        const auto thread = boost::thread([L, port]
+        auto thread = boost::thread([L, port]
         {
             boost::asio::io_service io_service;
             boost::asio::ip::udp::socket socket(io_service, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), port));
+            boost::asio::ip::udp::endpoint remote_endpoint;
+            boost::system::error_code error;
+            char receive_buffer[1024];
+
             while (true)
             {
-                char receive_buffer[2048];
-                boost::asio::ip::udp::endpoint remote_endpoint;
-                boost::system::error_code error;
+                if (port_message_clear_flags[port])
+                {
+                    port_message_clear_flags[port] = false;
+                    port_messages[port].clear();
+                }
+
                 const auto receive_size = socket.receive_from(
                     boost::asio::buffer(receive_buffer),
                     remote_endpoint,
@@ -66,10 +71,14 @@ int LuaFunctions::cLuaFunctions::lSendUdpMessage(lua_State* L)
     const auto port = static_cast<unsigned short>(lua_tointeger(L, 2));
     const auto* message = lua_tostring(L, 3);
 
-    boost::asio::io_service io_service;
-    boost::asio::ip::udp::socket socket(io_service);
-    auto remote = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(ip_address), port);
-    socket.open(boost::asio::ip::udp::v4());
+    static boost::asio::io_service io_service;
+    static boost::asio::ip::udp::socket socket(io_service);
+    if (!socket.is_open())
+    {
+        socket.open(boost::asio::ip::udp::v4());
+    }
+
+    const auto remote = boost::asio::ip::udp::endpoint(boost::asio::ip::address::from_string(ip_address), port);
     socket.send_to(boost::asio::buffer(message, strlen(message)), remote);
 
     return 0;
@@ -86,18 +95,15 @@ int LuaFunctions::cLuaFunctions::lGetMessagesForPort(lua_State* L)
 {
     const auto port = static_cast<unsigned short>(lua_tointeger(L, 1));
 
-    if (port_messages.find(port) == port_messages.end())
-    {
-        lua_newtable(L);
-        return 1;
-    }
-
     lua_newtable(L);
-    for (auto message_index = 0; message_index < port_messages[port].size(); ++message_index)
+    if (port_messages.find(port) != port_messages.end())
     {
-        lua_pushstring(L, port_messages[port][message_index].c_str());
-        lua_rawseti(L, -2, message_index + 1);
+        for (auto message_index = 0; message_index < port_messages[port].size(); ++message_index)
+        {
+            lua_pushstring(L, port_messages[port][message_index].c_str());
+            lua_rawseti(L, -2, message_index + 1);
+        }
+        port_message_clear_flags[port] = true;
     }
-    port_messages[port].clear();
     return 1;
 }

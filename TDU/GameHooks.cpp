@@ -29,9 +29,9 @@ void hMainLoop(Game* game, void* a2)
     MainLoop(game, a2);
 
     // Automatically start level if debugging
-//#ifdef _DEBUG
-//    Teardown::Lua::RunScript("StartLevel(\"lee_sandbox\", \"lee.xml\", \"sandbox\")");
-//#endif
+#ifdef _DEBUG
+    Teardown::Lua::RunScript("Command(\"mods.play\", \"local-multiplayer-concept---server\")");
+#endif
 
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
