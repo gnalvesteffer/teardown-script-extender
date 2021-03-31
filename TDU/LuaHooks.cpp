@@ -20,6 +20,15 @@ tluaL_loadbuffer oluaL_loadbuffer;
 
 int hluaL_loadbuffer(lua_State* L, const char* buff, size_t size, const char* name)
 {
+	/*
+		Example code to prevent a script from being loaded
+		Uncommenting this lets you move freely on the about level
+		Some paths start with ... and their first character replaced, just like this one, no clue why, you can find these by setting breakpoints though
+	 
+	if (strcmp(name, "...ata/level/about/script/about.lua") == 0)
+		return 0;
+	*/
+
 	CLuaFunctions::RegisterCFunctions(L);
 	return oluaL_loadbuffer(L, buff, size, name);
 }
