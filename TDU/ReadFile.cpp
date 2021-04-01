@@ -4,9 +4,9 @@
 #include <string>
 #include <Windows.h>
 #include <boost/algorithm/string/replace.hpp>
-
+#include "CLuaFunctions.h"
 #include "Loader.h"
-#include "LuaFunctions.h"
+
 
 bool is_valid_file_path(const std::string& file_path)
 {
@@ -55,7 +55,7 @@ std::string hydrate_virtual_file_path(lua_State* L, const std::string &virtual_f
 /// -- "CURRENT_MOD" could be used to read a file adhering to a specific file organization for a framework, etc...
 /// local file_text = ReadFile("CURRENT_MOD/test.txt")
 /// </summary>
-int LuaFunctions::cLuaFunctions::lReadFile(lua_State* L)
+int CLuaFunctions::IOFunctions::ReadFile(lua_State* L)
 {
     const auto *virtual_file_path = lua_tostring(L, 1); // virtual file path would start with "MOD/", and will have the mod path hydrated later.
 

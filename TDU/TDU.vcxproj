@@ -47,13 +47,13 @@
     <OutDir>C:\Program Files (x86)\Steam\steamapps\common\Teardown</OutDir>
     <TargetName>opengl32</TargetName>
     <LibraryPath>C:\lib\detours\lib.X64;C:\lib\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ImGuiColorTextEdit;$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>C:\Program Files (x86)\Steam\steamapps\common\Teardown</OutDir>
     <TargetName>opengl32</TargetName>
-    <IncludePath>$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)ImGuiColorTextEdit;$(SolutionDir)imgui;$(SolutionDir)glm;C:\lib\glew\include;C:\lib\detours\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\lib\detours\lib.X64;C:\lib\glew\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -69,7 +69,7 @@
       <IntrinsicFunctions>
       </IntrinsicFunctions>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0;D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -92,7 +92,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>D:\_dev\_gavin\_cpp\boost\boost_1_75_0;D:\_dev\_gavin\_cpp\glew-2.1.0\include;D:\_dev\_gavin\_cpp\Detours-4.0.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
@@ -108,104 +108,109 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\ImGuiColorTextEdit\TextEditor.cpp" />
+    <ClCompile Include="BaseHooks.cpp" />
+    <ClCompile Include="CLuaFunctions.cpp" />
+    <ClCompile Include="ConstructorFunctions.cpp" />
+    <ClCompile Include="LuaEntityFunctions.cpp" />
+    <ClCompile Include="GLHooks.cpp" />
     <ClCompile Include="ImGuiBuild.cpp" />
-    <ClCompile Include="CreateWindowHook.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="Functions.cpp" />
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="InitHooks.cpp" />
     <ClCompile Include="InputHook.cpp" />
-    <ClCompile Include="MiscFunctions.cpp" />
-    <ClCompile Include="LogHook.cpp" />
-    <ClCompile Include="Lua\lapi.c" />
-    <ClCompile Include="Lua\lauxlib.c" />
-    <ClCompile Include="Lua\lbaselib.c" />
-    <ClCompile Include="Lua\lcode.c" />
-    <ClCompile Include="Lua\ldblib.c" />
-    <ClCompile Include="Lua\ldebug.c" />
-    <ClCompile Include="Lua\ldo.c" />
-    <ClCompile Include="Lua\ldump.c" />
-    <ClCompile Include="Lua\lfunc.c" />
-    <ClCompile Include="Lua\lgc.c" />
-    <ClCompile Include="Lua\linit.c" />
-    <ClCompile Include="Lua\liolib.c" />
-    <ClCompile Include="Lua\llex.c" />
-    <ClCompile Include="Lua\lmathlib.c" />
-    <ClCompile Include="Lua\lmem.c" />
-    <ClCompile Include="Lua\loadlib.c" />
-    <ClCompile Include="Lua\lobject.c" />
-    <ClCompile Include="Lua\lopcodes.c" />
-    <ClCompile Include="Lua\loslib.c" />
-    <ClCompile Include="Lua\lparser.c" />
-    <ClCompile Include="Lua\lstate.c" />
-    <ClCompile Include="Lua\lstring.c" />
-    <ClCompile Include="Lua\lstrlib.c" />
-    <ClCompile Include="Lua\ltable.c" />
-    <ClCompile Include="Lua\ltablib.c" />
-    <ClCompile Include="Lua\ltm.c" />
-    <ClCompile Include="Lua\lua.c" />
-    <ClCompile Include="Lua\lundump.c" />
-    <ClCompile Include="Lua\lvm.c" />
-    <ClCompile Include="Lua\lzio.c" />
-    <ClCompile Include="Lua\print.c" />
-    <ClCompile Include="GameHooks.cpp" />
+    <ClCompile Include="LuaFunctions.cpp" />
+    <ClCompile Include="LuaHooks.cpp" />
+    <ClCompile Include="lua\lapi.c" />
+    <ClCompile Include="lua\lauxlib.c" />
+    <ClCompile Include="lua\lbaselib.c" />
+    <ClCompile Include="lua\lcode.c" />
+    <ClCompile Include="lua\ldblib.c" />
+    <ClCompile Include="lua\ldebug.c" />
+    <ClCompile Include="lua\ldo.c" />
+    <ClCompile Include="lua\ldump.c" />
+    <ClCompile Include="lua\lfunc.c" />
+    <ClCompile Include="lua\lgc.c" />
+    <ClCompile Include="lua\linit.c" />
+    <ClCompile Include="lua\liolib.c" />
+    <ClCompile Include="lua\llex.c" />
+    <ClCompile Include="lua\lmathlib.c" />
+    <ClCompile Include="lua\lmem.c" />
+    <ClCompile Include="lua\loadlib.c" />
+    <ClCompile Include="lua\lobject.c" />
+    <ClCompile Include="lua\lopcodes.c" />
+    <ClCompile Include="lua\loslib.c" />
+    <ClCompile Include="lua\lparser.c" />
+    <ClCompile Include="lua\lstate.c" />
+    <ClCompile Include="lua\lstring.c" />
+    <ClCompile Include="lua\lstrlib.c" />
+    <ClCompile Include="lua\ltable.c" />
+    <ClCompile Include="lua\ltablib.c" />
+    <ClCompile Include="lua\ltm.c" />
+    <ClCompile Include="lua\lua.c" />
+    <ClCompile Include="lua\lundump.c" />
+    <ClCompile Include="lua\lvm.c" />
+    <ClCompile Include="lua\lzio.c" />
+    <ClCompile Include="lua\print.c" />
+    <ClCompile Include="Hooks.cpp" />
+    <ClCompile Include="MemoryFunctions.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MiscHooks.cpp" />
+    <ClCompile Include="Noclip.cpp" />
     <ClCompile Include="PlayerHooks.cpp" />
     <ClCompile Include="ReadFile.cpp" />
-    <ClCompile Include="RenderHooks.cpp" />
-    <ClCompile Include="Shaders.cpp" />
-    <ClCompile Include="Teardown.cpp" />
-    <ClCompile Include="TLua.cpp" />
+    <ClCompile Include="TDLua.cpp" />
+    <ClCompile Include="TeardownFunctions.cpp" />
+    <ClCompile Include="EntityFunctions.cpp" />
     <ClCompile Include="UdpCommunication.cpp" />
-    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ImGuiColorTextEdit\TextEditor.h" />
-    <ClInclude Include="Functions.h" />
-    <ClInclude Include="imguiCPP.h" />
-    <ClInclude Include="LuaFunctions.h" />
+    <ClInclude Include="Cheats.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Entities.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GLExterns.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="CLuaFunctions.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="Script.h" />
+    <ClInclude Include="ShaderSystem.h" />
     <ClInclude Include="Hooks.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="Shaders.h" />
-    <ClInclude Include="TLua.h" />
     <ClInclude Include="Lua.hpp" />
-    <ClInclude Include="Lua\lapi.h" />
-    <ClInclude Include="Lua\lauxlib.h" />
-    <ClInclude Include="Lua\lcode.h" />
-    <ClInclude Include="Lua\ldebug.h" />
-    <ClInclude Include="Lua\ldo.h" />
-    <ClInclude Include="Lua\lfunc.h" />
-    <ClInclude Include="Lua\lgc.h" />
-    <ClInclude Include="Lua\llex.h" />
-    <ClInclude Include="Lua\llimits.h" />
-    <ClInclude Include="Lua\lmem.h" />
-    <ClInclude Include="Lua\lobject.h" />
-    <ClInclude Include="Lua\lopcodes.h" />
-    <ClInclude Include="Lua\lparser.h" />
-    <ClInclude Include="Lua\lstate.h" />
-    <ClInclude Include="Lua\lstring.h" />
-    <ClInclude Include="Lua\ltable.h" />
-    <ClInclude Include="Lua\ltm.h" />
-    <ClInclude Include="Lua\lua.h" />
-    <ClInclude Include="Lua\luaconf.h" />
-    <ClInclude Include="Lua\lualib.h" />
-    <ClInclude Include="Lua\lundump.h" />
-    <ClInclude Include="Lua\lvm.h" />
-    <ClInclude Include="Lua\lzio.h" />
+    <ClInclude Include="lua\lapi.h" />
+    <ClInclude Include="lua\lauxlib.h" />
+    <ClInclude Include="lua\lcode.h" />
+    <ClInclude Include="lua\ldebug.h" />
+    <ClInclude Include="lua\ldo.h" />
+    <ClInclude Include="lua\lfunc.h" />
+    <ClInclude Include="lua\lgc.h" />
+    <ClInclude Include="lua\llex.h" />
+    <ClInclude Include="lua\llimits.h" />
+    <ClInclude Include="lua\lmem.h" />
+    <ClInclude Include="lua\lobject.h" />
+    <ClInclude Include="lua\lopcodes.h" />
+    <ClInclude Include="lua\lparser.h" />
+    <ClInclude Include="lua\lstate.h" />
+    <ClInclude Include="lua\lstring.h" />
+    <ClInclude Include="lua\ltable.h" />
+    <ClInclude Include="lua\ltm.h" />
+    <ClInclude Include="lua\lua.h" />
+    <ClInclude Include="lua\luaconf.h" />
+    <ClInclude Include="lua\lualib.h" />
+    <ClInclude Include="lua\lundump.h" />
+    <ClInclude Include="lua\lvm.h" />
+    <ClInclude Include="lua\lzio.h" />
     <ClInclude Include="Memory.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Script.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Signatures.h" />
+    <ClInclude Include="TDLua.h" />
     <ClInclude Include="Teardown.h" />
+    <ClInclude Include="TeardownFunctions.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Types.h" />
-    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lua\Makefile" />
+    <None Include="lua\Makefile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

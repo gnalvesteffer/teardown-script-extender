@@ -1,19 +1,19 @@
 #include "Hooks.h"
 #include "Logger.h"
-#include "Menu.h"
 #include "Globals.h"
+#include "Cheats.h"
 #include <detours.h>
-#include "imgui.h"
+#include <imgui.h>
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-WNDPROC	oWndProc;
+WNDPROC	WndProc;
 
 typedef bool(*tSetCursorPos)(int X, int Y);
 tSetCursorPos	oSetCursorPos;
 
 bool hSetCursorPos(int X, int Y)
 {
-	if (!Menu::drawMenu)
+	if (!Cheats::Menu::Enabled)
 		return oSetCursorPos(X, Y);
 	return true;
 }
@@ -25,31 +25,33 @@ LRESULT	APIENTRY hWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_KEYDOWN:
 		if (wParam == VK_INSERT)
 		{
-			Menu::drawMenu = !Menu::drawMenu;
+			Cheats::Menu::Enabled = !Cheats::Menu::Enabled;
 			return true;
 		}
+		if (wParam == 0x4E && !Cheats::Menu::Enabled)
+			Cheats::Noclip::Toggle();
 	}
 
-	if (Menu::drawMenu && GetForegroundWindow() == Globals::gWnd)
+	if (Cheats::Menu::Enabled && GetForegroundWindow() == Globals::HWnd)
 	{
 		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 		return true;
 	}
 
-	return CallWindowProc(oWndProc, hWnd, uMsg, wParam, lParam);
+	return CallWindowProc(WndProc, hWnd, uMsg, wParam, lParam);
 }
 
-void Hooks::InputHooks::hookWndProc()
+void Hooks::InputHooks::HookWndProc()
 {
-	oWndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(Globals::gWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(hWndProc)));
+	WndProc = reinterpret_cast<WNDPROC>(SetWindowLongPtrW(Globals::HWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(hWndProc)));
 }
 
-void Hooks::InputHooks::hookCursor()
+void Hooks::InputHooks::HookCursorPos()
 {
-	HMODULE USER32 = GetModuleHandle("USER32.dll");
-	oSetCursorPos = (tSetCursorPos)GetProcAddress(USER32, "SetCursorPos");
+	HMODULE hUSER32 = GetModuleHandle("USER32.dll");
+	oSetCursorPos = (tSetCursorPos)GetProcAddress(hUSER32, "SetCursorPos");
 
-	WriteLog("SetCursorPos: 0x%p | SetCursorPos hook: 0x%p", oSetCursorPos, hSetCursorPos);
+	WriteLog(LogType::Address, "SetCursorPos: 0x%p | hook: 0x%p", SetCursorPos, hSetCursorPos);
 
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());

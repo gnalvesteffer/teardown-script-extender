@@ -1,7 +1,7 @@
 #include <boost/asio.hpp>
 #include <unordered_map>
 #include <boost/thread.hpp>
-#include "LuaFunctions.h"
+#include "CLuaFunctions.h"
 
 std::unordered_map<unsigned short, std::vector<std::string>> port_messages;
 std::unordered_map<unsigned short, bool> port_message_clear_flags;
@@ -13,7 +13,7 @@ std::unordered_map<unsigned short, bool> port_message_clear_flags;
 /// Example:
 /// InitializeUdpPortListener(1337)
 /// </summary>
-int LuaFunctions::cLuaFunctions::lInitializeUdpPortListener(lua_State* L)
+int CLuaFunctions::UdpFunctions::InitializeUdpPortListener(lua_State* L)
 {
     const auto port = static_cast<unsigned short>(lua_tointeger(L, 1));
     const auto is_socket_open_for_port = port_messages.find(port) != port_messages.end();
@@ -60,12 +60,36 @@ int LuaFunctions::cLuaFunctions::lInitializeUdpPortListener(lua_State* L)
 
 /// <summary>
 /// Usage:
+/// GetMessagesForPort(port)
+///
+/// Example:
+/// local messages = GetMessagesForPort(1337) -- table of messages (strings)
+/// </summary>
+int CLuaFunctions::UdpFunctions::GetMessagesForPort(lua_State* L)
+{
+    const auto port = static_cast<unsigned short>(lua_tointeger(L, 1));
+
+    lua_newtable(L);
+    if (port_messages.find(port) != port_messages.end())
+    {
+        for (auto message_index = 0; message_index < port_messages[port].size(); ++message_index)
+        {
+            lua_pushstring(L, port_messages[port][message_index].c_str());
+            lua_rawseti(L, -2, message_index + 1);
+        }
+        port_message_clear_flags[port] = true;
+    }
+    return 1;
+}
+
+/// <summary>
+/// Usage:
 /// SendUdpMessage(ip_address, port, message)
 ///
 /// Example:
 /// SendUdpMessage("127.0.0.1", 1337, "Hello World!")
 /// </summary>
-int LuaFunctions::cLuaFunctions::lSendUdpMessage(lua_State* L)
+int CLuaFunctions::UdpFunctions::SendUdpMessage(lua_State* L)
 {
     const auto* ip_address = lua_tostring(L, 1);
     const auto port = static_cast<unsigned short>(lua_tointeger(L, 2));
@@ -82,28 +106,4 @@ int LuaFunctions::cLuaFunctions::lSendUdpMessage(lua_State* L)
     socket.send_to(boost::asio::buffer(message, strlen(message)), remote);
 
     return 0;
-}
-
-/// <summary>
-/// Usage:
-/// GetMessagesForPort(port)
-///
-/// Example:
-/// local messages = GetMessagesForPort(1337) -- table of messages (strings)
-/// </summary>
-int LuaFunctions::cLuaFunctions::lGetMessagesForPort(lua_State* L)
-{
-    const auto port = static_cast<unsigned short>(lua_tointeger(L, 1));
-
-    lua_newtable(L);
-    if (port_messages.find(port) != port_messages.end())
-    {
-        for (auto message_index = 0; message_index < port_messages[port].size(); ++message_index)
-        {
-            lua_pushstring(L, port_messages[port][message_index].c_str());
-            lua_rawseti(L, -2, message_index + 1);
-        }
-        port_message_clear_flags[port] = true;
-    }
-    return 1;
 }
